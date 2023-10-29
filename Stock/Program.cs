@@ -2,9 +2,13 @@
 
 using Microsoft.EntityFrameworkCore;
 using Stock.Data;
+using Stock.Interfaces;
+using Stock.Models;
+using Stock.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IUnit, UnitRepository>();
 
 builder.Services.AddDbContext<InventoryContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

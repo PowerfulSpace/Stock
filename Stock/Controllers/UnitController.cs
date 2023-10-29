@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Stock.Data;
+using Stock.Interfaces;
 using Stock.Models;
 
 namespace Stock.Controllers
@@ -8,16 +7,16 @@ namespace Stock.Controllers
     public class UnitController : Controller
     {
 
-        private readonly InventoryContext _context;
+        private readonly IUnit _unitRepo;
 
-        public UnitController(InventoryContext context)
+        public UnitController(IUnit context)
         {
-            _context = context;
+            _unitRepo = context;
         }
 
         public IActionResult Index()
         {
-            var units = _context.Units.ToList();
+            var units = _unitRepo.GetUnits();
             return View(units);
         }
 
@@ -33,20 +32,17 @@ namespace Stock.Controllers
         {
             try
             {
-                _context.Units.Add(unit);
-                _context.SaveChanges();
+                unit = _unitRepo.Greate(unit);
             }
             catch { }
            
             return RedirectToAction(nameof(Index));
         }
 
-        private Unit GetUnit(Guid id) => _context.Units.FirstOrDefault(x => x.Id == id);
-
         [HttpGet]
         public IActionResult Details(Guid id)
         {
-            var unit = GetUnit(id);
+            var unit = _unitRepo.GetUnit(id);
 
             if (unit != null)
             {
@@ -60,7 +56,7 @@ namespace Stock.Controllers
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
-            var unit = GetUnit(id);
+            var unit = _unitRepo.GetUnit(id);
 
             if (unit != null)
             {
@@ -75,9 +71,7 @@ namespace Stock.Controllers
         {
             try
             {
-                _context.Units.Attach(unit);
-                _context.Entry(unit).State = EntityState.Modified;
-                _context.SaveChanges();
+                unit = _unitRepo.Edit(unit);
             }
             catch { }
 
@@ -86,7 +80,7 @@ namespace Stock.Controllers
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
-            var unit = GetUnit(id);
+            var unit = _unitRepo.GetUnit(id);
 
             if (unit != null)
             {
@@ -101,9 +95,7 @@ namespace Stock.Controllers
         {
             try
             {
-                _context.Units.Attach(unit);
-                _context.Entry(unit).State = EntityState.Deleted;
-                _context.SaveChanges();
+                unit = _unitRepo.Delete(unit);
             }
             catch { }
 
