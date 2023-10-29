@@ -10,6 +10,6 @@ namespace Stock.Data
             
         }
 
-        DbSet<Unit> Units { get; set; } = null!;
+        public DbSet<Unit> Units { get; set; } = null!;
     }
 }
