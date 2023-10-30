@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Stock.Interfaces;
 using Stock.Models;
+using Stock.Services.Sorting;
 
 namespace Stock.Controllers
 {
@@ -16,46 +18,16 @@ namespace Stock.Controllers
 
         public IActionResult Index(string sortExpression="")
         {
-            ViewData["SortParamName"] = "name";
-            ViewData["SortParamDescription"] = "description";
+            SortModel sortModel = new SortModel();
 
-            ViewData["SortIconName"] = "";
-            ViewData["SortIconDescription"] = "";
+            sortModel.AddColumn("name");
+            sortModel.AddColumn("description");
 
+            sortModel.ApplySort(sortExpression);
 
-            SortOrder sortOrder ;
-            string sortProperty;
+            ViewData["sortModel"] = sortModel;
 
-            switch (sortExpression.ToLower())
-            {
-                case "name_desc":
-                    sortOrder = SortOrder.Descending;
-                    sortProperty = "name";
-                    ViewData["SortParamName"] = "name";
-                    ViewData["SortIconName"] = "bi bi-chevron-compact-up";
-                    break;
-                case "description":
-                    sortOrder = SortOrder.Ascending;
-                    sortProperty = "description";
-                    ViewData["SortParamDescription"] = "description_desc";
-                    ViewData["SortIconDescription"] = "bi bi-chevron-compact-down";
-                    break;
-                case "description_desc":
-                    sortOrder = SortOrder.Descending;
-                    sortProperty = "description";
-                    ViewData["SortParamDescription"] = "description";
-                    ViewData["SortIconDescription"] = "bi bi-chevron-compact-up";
-                    break;
-                default:
-                    sortOrder = SortOrder.Ascending;
-                    sortProperty = "name";
-                    ViewData["SortParamName"] = "name_desc";
-                    ViewData["SortIconName"] = "bi bi-chevron-compact-down";
-                    break;
-            }
-
-
-            var units = _unitRepo.GetUnits(sortProperty, sortOrder);
+            var units = _unitRepo.GetUnits(sortModel.SortedProperty, sortModel.SortedOrder);
             return View(units);
         }
 

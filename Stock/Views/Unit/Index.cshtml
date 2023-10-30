@@ -1,7 +1,9 @@
-﻿@model IEnumerable<Unit>
+﻿@using Stock.Services.Sorting;
+@model IEnumerable<Unit>
 
 @{
     ViewData["Title"] = "Index";
+    SortModel sortModel = (SortModel)ViewData["sortModel"];
 }
 
 <h1>Index</h1>
@@ -12,15 +14,15 @@
 <table class="table">
     <thead>
         <tr>
-            <th>       
-                <i class="@ViewData["SortIconName"]" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@ViewData["SortParamName"]">                    
+            <th>
+                <i class="@sortModel.GetColumn("name").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("name").SortExpression">
                     @Html.DisplayNameFor(model => model.Name)
                 </a>
             </th>
-            <th>   
-                <i class="@ViewData["SortIconDescription"]" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@ViewData["SortParamDescription"]">                   
+            <th>
+                <i class="@sortModel.GetColumn("description").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("description").SortExpression">
                     @Html.DisplayNameFor(model => model.Description)
                 </a>
             </th>

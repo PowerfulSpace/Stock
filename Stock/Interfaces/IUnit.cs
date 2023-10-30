@@ -1,4 +1,5 @@
-﻿using Stock.Models;
+﻿using Microsoft.Data.SqlClient;
+using Stock.Models;
 
 namespace Stock.Interfaces
 {
