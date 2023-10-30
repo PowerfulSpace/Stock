@@ -12,11 +12,17 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
+            <th>       
+                <i class="@ViewData["SortIconName"]" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@ViewData["SortParamName"]">                    
+                    @Html.DisplayNameFor(model => model.Name)
+                </a>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
+            <th>   
+                <i class="@ViewData["SortIconDescription"]" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@ViewData["SortParamDescription"]">                   
+                    @Html.DisplayNameFor(model => model.Description)
+                </a>
             </th>
             <th></th>
         </tr>

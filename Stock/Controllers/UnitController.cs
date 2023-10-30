@@ -14,9 +14,48 @@ namespace Stock.Controllers
             _unitRepo = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortExpression="")
         {
-            var units = _unitRepo.GetUnits();
+            ViewData["SortParamName"] = "name";
+            ViewData["SortParamDescription"] = "description";
+
+            ViewData["SortIconName"] = "";
+            ViewData["SortIconDescription"] = "";
+
+
+            SortOrder sortOrder ;
+            string sortProperty;
+
+            switch (sortExpression.ToLower())
+            {
+                case "name_desc":
+                    sortOrder = SortOrder.Descending;
+                    sortProperty = "name";
+                    ViewData["SortParamName"] = "name";
+                    ViewData["SortIconName"] = "bi bi-chevron-compact-up";
+                    break;
+                case "description":
+                    sortOrder = SortOrder.Ascending;
+                    sortProperty = "description";
+                    ViewData["SortParamDescription"] = "description_desc";
+                    ViewData["SortIconDescription"] = "bi bi-chevron-compact-down";
+                    break;
+                case "description_desc":
+                    sortOrder = SortOrder.Descending;
+                    sortProperty = "description";
+                    ViewData["SortParamDescription"] = "description";
+                    ViewData["SortIconDescription"] = "bi bi-chevron-compact-up";
+                    break;
+                default:
+                    sortOrder = SortOrder.Ascending;
+                    sortProperty = "name";
+                    ViewData["SortParamName"] = "name_desc";
+                    ViewData["SortIconName"] = "bi bi-chevron-compact-down";
+                    break;
+            }
+
+
+            var units = _unitRepo.GetUnits(sortProperty, sortOrder);
             return View(units);
         }
 

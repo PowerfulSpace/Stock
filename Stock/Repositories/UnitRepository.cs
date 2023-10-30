@@ -14,9 +14,25 @@ namespace Stock.Repositories
             _context = context;
         }
 
-        public List<Unit> GetUnits()
+        public List<Unit> GetUnits(string sortProperty, SortOrder order)
         {
             var units = _context.Units.ToList();
+
+            if(sortProperty.ToLower() == "name")
+            {
+                if (order == SortOrder.Ascending)
+                    units = units.OrderBy(x => x.Name).ToList();
+                else
+                    units = units.OrderByDescending(x => x.Name).ToList();
+            }
+            else if(sortProperty.ToLower() == "description")
+            {
+                if (order == SortOrder.Ascending)
+                    units = units.OrderBy(x => x.Description).ToList();
+                else
+                    units = units.OrderByDescending(x => x.Description).ToList();
+            }
+
             return units;
         }
 
