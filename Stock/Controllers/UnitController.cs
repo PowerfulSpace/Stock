@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Stock.Interfaces;
 using Stock.Models;
 using Stock.Services.Sorting;
@@ -16,7 +15,7 @@ namespace Stock.Controllers
             _unitRepo = context;
         }
 
-        public IActionResult Index(string sortExpression="")
+        public IActionResult Index(string sortExpression="", string searchText = "")
         {
             SortModel sortModel = new SortModel();
 
@@ -26,8 +25,9 @@ namespace Stock.Controllers
             sortModel.ApplySort(sortExpression);
 
             ViewData["sortModel"] = sortModel;
+            ViewBag.SearchText = searchText;
 
-            var units = _unitRepo.GetUnits(sortModel.SortedProperty, sortModel.SortedOrder);
+            var units = _unitRepo.GetUnits(sortModel.SortedProperty, sortModel.SortedOrder, searchText);
             return View(units);
         }
 

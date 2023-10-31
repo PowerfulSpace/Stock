@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Stock.Data;
 using Stock.Interfaces;
 using Stock.Models;
+using System.Linq;
 
 namespace Stock.Repositories
 {
@@ -15,24 +16,42 @@ namespace Stock.Repositories
             _context = context;
         }
 
-        public List<Unit> GetUnits(string sortProperty, SortOrder order)
+        private List<Unit> DoSort(List<Unit> units, string sortProperty, SortOrder order)
         {
-            var units = _context.Units.ToList();
-
-            if(sortProperty.ToLower() == "name")
+            if (sortProperty.ToLower() == "name")
             {
                 if (order == SortOrder.Ascending)
                     units = units.OrderBy(x => x.Name).ToList();
                 else
                     units = units.OrderByDescending(x => x.Name).ToList();
             }
-            else if(sortProperty.ToLower() == "description")
+            else if (sortProperty.ToLower() == "description")
             {
                 if (order == SortOrder.Ascending)
                     units = units.OrderBy(x => x.Description).ToList();
                 else
                     units = units.OrderByDescending(x => x.Description).ToList();
             }
+
+            return units;
+        }
+
+        public List<Unit> GetUnits(string sortProperty, SortOrder order, string searchText)
+        {
+            List<Unit> units;
+
+            if(searchText != "" && searchText != null)
+            {
+                units = _context.Units
+                    .Where(x => x.Name.Contains(searchText) || x.Description.Contains(searchText))
+                    .ToList();
+            }
+            else
+            {
+                units = _context.Units.ToList();
+            }
+
+            units = DoSort(units, sortProperty, order);
 
             return units;
         }
