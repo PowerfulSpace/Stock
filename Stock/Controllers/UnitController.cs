@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Stock.Interfaces;
 using Stock.Models;
+using Stock.Services.Pagination;
 using Stock.Services.Sorting;
 
 namespace Stock.Controllers
@@ -15,19 +16,23 @@ namespace Stock.Controllers
             _unitRepo = context;
         }
 
-        public IActionResult Index(string sortExpression="", string searchText = "")
+        public IActionResult Index(string sortExpression="", string searchText = "",int currentPage = 1, int pageSize=5)
         {
             SortModel sortModel = new SortModel();
-
             sortModel.AddColumn("name");
             sortModel.AddColumn("description");
-
             sortModel.ApplySort(sortExpression);
+
+            var units = _unitRepo.GetUnits(sortModel.SortedProperty, sortModel.SortedOrder, searchText,currentPage,pageSize);
+
+            var pager = new PagerModel(units.TotalRecords, currentPage, pageSize);
+            pager.SortExpression = sortExpression;
+
 
             ViewData["sortModel"] = sortModel;
             ViewBag.SearchText = searchText;
+            ViewBag.Pager = pager;
 
-            var units = _unitRepo.GetUnits(sortModel.SortedProperty, sortModel.SortedOrder, searchText);
             return View(units);
         }
 

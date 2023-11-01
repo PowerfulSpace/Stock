@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Stock.Data;
 using Stock.Interfaces;
 using Stock.Models;
-using System.Linq;
+using System.Drawing.Printing;
 
 namespace Stock.Repositories
 {
@@ -36,7 +36,7 @@ namespace Stock.Repositories
             return units;
         }
 
-        public List<Unit> GetUnits(string sortProperty, SortOrder order, string searchText)
+        public PaginatedList<Unit> GetUnits(string sortProperty, SortOrder order, string searchText,int pageIndex,int pageSize)
         {
             List<Unit> units;
 
@@ -53,7 +53,9 @@ namespace Stock.Repositories
 
             units = DoSort(units, sortProperty, order);
 
-            return units;
+            PaginatedList<Unit> retUnits = new PaginatedList<Unit>(units, pageIndex, pageSize);
+
+            return retUnits;
         }
 
         public Unit GetUnit(Guid id) => _context.Units.FirstOrDefault(x => x.Id == id);

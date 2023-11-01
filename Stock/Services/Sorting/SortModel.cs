@@ -8,6 +8,7 @@ namespace Stock.Services.Sorting
         private string DownIcon = "bi bi-chevron-compact-down";
         public SortOrder SortedOrder { get; set; }
         public string SortedProperty { get; set; } = null!;
+        public string SortedExpression { get; private set; } = null!;
 
         private List<SortableColumn> sortableColumns = new List<SortableColumn>();
 
@@ -39,10 +40,14 @@ namespace Stock.Services.Sorting
 
         public void ApplySort(string sortExpression)
         {
+            if (sortExpression == null)
+                sortExpression = "";
 
             if (sortExpression == "")
-                sortExpression = SortedProperty.ToLower();
+                sortExpression = SortedProperty;
 
+            sortExpression = sortExpression.ToLower();
+            SortedExpression = sortExpression;
 
             foreach (SortableColumn column in sortableColumns)
             {
