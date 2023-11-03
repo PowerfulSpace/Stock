@@ -2,6 +2,14 @@
 
 @{
     ViewData["Title"] = "Delete";
+
+    var currentPage = 1;
+    if (TempData["CurrentPage"] != null)
+    {
+        currentPage = (int)TempData["CurrentPage"]!;
+        TempData["CurrentPage"] = currentPage;
+    }
+
 }
 
 <h1>Delete</h1>
@@ -31,3 +39,9 @@
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

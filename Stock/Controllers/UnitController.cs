@@ -90,9 +90,22 @@ namespace Stock.Controllers
         {
             try
             {
+                if(unit.Description.Length < 4 && unit.Description == null)
+                {
+                    string errMessage = "Unit Description Must be atleast 4 Characters";
+                    TempData["ErrorMessage"] = errMessage;
+                    ModelState.AddModelError("",errMessage);
+                    return View(unit);
+                }
                 unit = _unitRepo.Edit(unit);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                string errMessage = ex.Message;
+                TempData["ErrorMessage"] = errMessage;
+                ModelState.AddModelError("", errMessage);
+                return View(unit);
+            }
 
             TempData["SuccessMessage"] = "Unit " + unit.Name + " Saved Successfully";
 
@@ -121,15 +134,30 @@ namespace Stock.Controllers
         [HttpPost]
         public IActionResult Delete(Unit unit)
         {
+
             try
             {
                 unit = _unitRepo.Delete(unit);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                string errMessage = ex.Message;
+                TempData["ErrorMessage"] = errMessage;
+                ModelState.AddModelError("", errMessage);
+                return View(unit);
+            }
+
+
+
+            var currentPage = 1;
+            if (TempData["CurrentPage"] != null)
+            {
+                currentPage = (int)TempData["CurrentPage"]!;
+            }
 
             TempData["SuccessMessage"] = "Unit " + unit.Name + " Deleted Successfully";
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { currentPage = currentPage });
         }
 
     }
