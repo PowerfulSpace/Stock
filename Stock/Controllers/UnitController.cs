@@ -88,7 +88,7 @@ namespace Stock.Controllers
         public IActionResult Details(Guid id)
         {
             var unit = _unitRepo.GetUnit(id);
-            TempData.Keep();
+            TempData.Keep("CurrentPage");
             if (unit != null)
             {
                 return View(unit);
@@ -102,7 +102,7 @@ namespace Stock.Controllers
         public IActionResult Edit(Guid id)
         {
             var unit = _unitRepo.GetUnit(id);
-            TempData.Keep();
+            TempData.Keep("CurrentPage");
 
             if (unit != null)
             {
@@ -158,7 +158,7 @@ namespace Stock.Controllers
         public IActionResult Delete(Guid id)
         {
             var unit = _unitRepo.GetUnit(id);
-            TempData.Keep();
+            TempData.Keep("CurrentPage");
 
             if (unit != null)
             {
