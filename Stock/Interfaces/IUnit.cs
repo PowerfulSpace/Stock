@@ -10,5 +10,8 @@ namespace Stock.Interfaces
         Unit Greate(Unit unit);
         Unit Edit(Unit unit);
         Unit Delete(Unit unit);
+
+        public bool IsUnitNameExists(string name);
+        public bool IsUnitNameExists(string name, Guid id);
     }
 }

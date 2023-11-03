@@ -28,7 +28,6 @@ namespace Stock.Controllers
             var pager = new PagerModel(units.TotalRecords, currentPage, pageSize);
             pager.SortExpression = sortExpression;
 
-
             ViewData["sortModel"] = sortModel;
             ViewBag.SearchText = searchText;
             ViewBag.Pager = pager;
@@ -47,22 +46,49 @@ namespace Stock.Controllers
         [HttpPost]
         public IActionResult Create(Unit unit)
         {
+            var bolret = false;
+            string errMessage = "";
+
             try
             {
-                unit = _unitRepo.Greate(unit);
+
+                if (unit.Description.Length < 4 || unit.Description == null)
+                    errMessage = "Unit Description Must be atleast 4 Characters";
+
+                if (_unitRepo.IsUnitNameExists(unit.Name) == true)
+                    errMessage = errMessage + " " + " Unit Name " + unit.Name + " Exists Already";
+
+                if(errMessage == "")
+                {
+                    unit = _unitRepo.Greate(unit);
+                    bolret = true;
+                }
+ 
             }
-            catch { }
+            catch (Exception ex)
+            {
+                errMessage = errMessage + " " + ex.Message;
+            }
 
-            TempData["SuccessMessage"] = "Unit " + unit.Name + " Created Successfully";
+            if(bolret == false)
+            {
+                TempData["ErrorMessage"] = errMessage;
+                ModelState.AddModelError("", errMessage);
+                return View(unit);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Unit " + unit.Name + " Created Successfully";
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         [HttpGet]
         public IActionResult Details(Guid id)
         {
             var unit = _unitRepo.GetUnit(id);
-
+            TempData.Keep();
             if (unit != null)
             {
                 return View(unit);
@@ -76,6 +102,7 @@ namespace Stock.Controllers
         public IActionResult Edit(Guid id)
         {
             var unit = _unitRepo.GetUnit(id);
+            TempData.Keep();
 
             if (unit != null)
             {
@@ -88,40 +115,50 @@ namespace Stock.Controllers
         [HttpPost]
         public IActionResult Edit(Unit unit)
         {
+            var bolret = false;
+            string errMessage = "";
+
             try
             {
-                if(unit.Description.Length < 4 && unit.Description == null)
+                if (unit.Description.Length < 4 || unit.Description == null)
+                    errMessage = "Unit Description Must be atleast 4 Characters";
+
+                if (_unitRepo.IsUnitNameExists(unit.Name,unit.Id) == true)
+                    errMessage = errMessage + " " + " Unit Name " + unit.Name + " Exists Already";
+
+                if (errMessage == "")
                 {
-                    string errMessage = "Unit Description Must be atleast 4 Characters";
-                    TempData["ErrorMessage"] = errMessage;
-                    ModelState.AddModelError("",errMessage);
-                    return View(unit);
-                }
-                unit = _unitRepo.Edit(unit);
+                    unit = _unitRepo.Edit(unit);
+                    bolret = true;
+                } 
             }
             catch (Exception ex)
             {
-                string errMessage = ex.Message;
-                TempData["ErrorMessage"] = errMessage;
-                ModelState.AddModelError("", errMessage);
-                return View(unit);
+                errMessage = errMessage + " " + ex.Message;
             }
-
-            TempData["SuccessMessage"] = "Unit " + unit.Name + " Saved Successfully";
 
             var currentPage = 1;
             if (TempData["CurrentPage"] != null)
             {
                 currentPage = (int)TempData["CurrentPage"]!;
             }
-
-
-            return RedirectToAction(nameof(Index),new { currentPage = currentPage });
+            if (bolret == false)
+            {
+                TempData["ErrorMessage"] = errMessage;
+                ModelState.AddModelError("", errMessage);
+                return View(unit);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Unit " + unit.Name + " Saved Successfully";
+                return RedirectToAction(nameof(Index), new { currentPage = currentPage });
+            }
         }
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
             var unit = _unitRepo.GetUnit(id);
+            TempData.Keep();
 
             if (unit != null)
             {
@@ -134,7 +171,6 @@ namespace Stock.Controllers
         [HttpPost]
         public IActionResult Delete(Unit unit)
         {
-
             try
             {
                 unit = _unitRepo.Delete(unit);

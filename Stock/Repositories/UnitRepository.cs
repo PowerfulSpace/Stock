@@ -14,27 +14,6 @@ namespace Stock.Repositories
         {
             _context = context;
         }
-
-        private List<Unit> DoSort(List<Unit> units, string sortProperty, SortOrder order)
-        {
-            if (sortProperty.ToLower() == "name")
-            {
-                if (order == SortOrder.Ascending)
-                    units = units.OrderBy(x => x.Name).ToList();
-                else
-                    units = units.OrderByDescending(x => x.Name).ToList();
-            }
-            else if (sortProperty.ToLower() == "description")
-            {
-                if (order == SortOrder.Ascending)
-                    units = units.OrderBy(x => x.Description).ToList();
-                else
-                    units = units.OrderByDescending(x => x.Description).ToList();
-            }
-
-            return units;
-        }
-
         public PaginatedList<Unit> GetUnits(string sortProperty, SortOrder order, string searchText,int pageIndex,int pageSize)
         {
             List<Unit> units;
@@ -82,5 +61,45 @@ namespace Stock.Repositories
             _context.SaveChanges();
             return unit;
         }
+
+        public bool IsUnitNameExists(string name)
+        {
+            int ct = _context.Units.Where(x => x.Name.ToLower() == name.ToLower()).Count();
+            if (ct > 0)
+                return true;
+            else
+                return false;
+        }
+        public bool IsUnitNameExists(string name,Guid id)
+        {
+            int ct = _context.Units.Where(x => x.Name.ToLower() == name.ToLower() && x.Id != id).Count();
+            if (ct > 0)
+                return true;
+            else
+                return false;
+        }
+
+
+        private List<Unit> DoSort(List<Unit> units, string sortProperty, SortOrder order)
+        {
+            if (sortProperty.ToLower() == "name")
+            {
+                if (order == SortOrder.Ascending)
+                    units = units.OrderBy(x => x.Name).ToList();
+                else
+                    units = units.OrderByDescending(x => x.Name).ToList();
+            }
+            else if (sortProperty.ToLower() == "description")
+            {
+                if (order == SortOrder.Ascending)
+                    units = units.OrderBy(x => x.Description).ToList();
+                else
+                    units = units.OrderByDescending(x => x.Description).ToList();
+            }
+
+            return units;
+        }
+
+
     }
 }
