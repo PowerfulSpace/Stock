@@ -36,6 +36,25 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+
+            <div id="MyModalSuccess" class="modal fade text-width:30%;" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Information</h2>
+                            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body alert alert-success" id="MyModalSuccessAlertBody">
+                            This is a modela body
+                        </div>
+                        <div class="modal-footer">
+                            &nbsp;
+                            <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @RenderBody()
         </main>
     </div>

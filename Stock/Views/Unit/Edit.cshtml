@@ -2,6 +2,14 @@
 
 @{
     ViewData["Title"] = "Edit";
+
+    var currentPage = 1;
+    if (TempData["CurrentPage"] != null)
+    {
+        currentPage = (int)TempData["CurrentPage"]!;
+        TempData["CurrentPage"] = currentPage;
+    }
+    
 }
 
 <h1>Edit</h1>

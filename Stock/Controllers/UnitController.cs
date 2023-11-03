@@ -32,6 +32,7 @@ namespace Stock.Controllers
             ViewData["sortModel"] = sortModel;
             ViewBag.SearchText = searchText;
             ViewBag.Pager = pager;
+            TempData["CurrentPage"] = currentPage;
 
             return View(units);
         }
@@ -51,7 +52,9 @@ namespace Stock.Controllers
                 unit = _unitRepo.Greate(unit);
             }
             catch { }
-           
+
+            TempData["SuccessMessage"] = "Unit " + unit.Name + " Created Successfully";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -91,7 +94,16 @@ namespace Stock.Controllers
             }
             catch { }
 
-            return RedirectToAction(nameof(Index));
+            TempData["SuccessMessage"] = "Unit " + unit.Name + " Saved Successfully";
+
+            var currentPage = 1;
+            if (TempData["CurrentPage"] != null)
+            {
+                currentPage = (int)TempData["CurrentPage"]!;
+            }
+
+
+            return RedirectToAction(nameof(Index),new { currentPage = currentPage });
         }
         [HttpGet]
         public IActionResult Delete(Guid id)
@@ -114,6 +126,8 @@ namespace Stock.Controllers
                 unit = _unitRepo.Delete(unit);
             }
             catch { }
+
+            TempData["SuccessMessage"] = "Unit " + unit.Name + " Deleted Successfully";
 
             return RedirectToAction(nameof(Index));
         }

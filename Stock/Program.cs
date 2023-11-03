@@ -35,5 +35,5 @@ app.MapControllerRoute(
 
 app.Run();
 
-//28 30
+//18 36
 //https://www.youtube.com/watch?v=aWpwWEzBN5I&list=PLKveM2BE9JqHa38TYJg_Sej61_u_uaOLF&index=4
