@@ -14,8 +14,8 @@ namespace Stock.Services.Pagination
         public int EndRecord { get; private set; }
 
         public string Action { get; set; } = "Index";
-        public string SearchText { get; set; }
-        public string SortExpression { get; set; }
+        public string SearchText { get; set; } = null!;
+        public string SortExpression { get; set; } = null!;
 
 
 

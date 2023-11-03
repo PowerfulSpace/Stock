@@ -7,17 +7,23 @@
     PagerModel pagerModel = ViewBag.Pager;
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="container-fluid btn-group">
+    <div class="col-10">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="col-2 justify-content-end">
+        <p>
+            <a asp-action="Create" class="btn btn-success">Create New</a>
+        </p>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-12">
         <partial name="_topBar" model="pagerModel" />
     </div>
 </div>
+
 
 <table class="table">
     <thead>
@@ -38,21 +44,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <span class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <span class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-circle" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <span class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 

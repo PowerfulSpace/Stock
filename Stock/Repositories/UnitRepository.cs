@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Stock.Data;
 using Stock.Interfaces;
 using Stock.Models;
-using System.Drawing.Printing;
 
 namespace Stock.Repositories
 {
