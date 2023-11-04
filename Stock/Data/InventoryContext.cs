@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Stock.Models;
 
 namespace Stock.Data
 {
-    public class InventoryContext : DbContext
+    public class InventoryContext : IdentityDbContext<IdentityUser>
     {
         public InventoryContext(DbContextOptions<InventoryContext> options) :base(options)
         {
