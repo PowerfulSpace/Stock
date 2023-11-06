@@ -23,7 +23,7 @@ namespace Stock.Controllers
             sortModel.AddColumn("description");
             sortModel.ApplySort(sortExpression);
 
-            var units = _unitRepo.GetUnits(sortModel.SortedProperty, sortModel.SortedOrder, searchText,currentPage,pageSize);
+            var units = _unitRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
 
             var pager = new PagerModel(units.TotalRecords, currentPage, pageSize);
             pager.SortExpression = sortExpression;
@@ -55,7 +55,7 @@ namespace Stock.Controllers
                 if (unit.Description.Length < 4 || unit.Description == null)
                     errMessage = "Unit Description Must be atleast 4 Characters";
 
-                if (_unitRepo.IsUnitNameExists(unit.Name) == true)
+                if (_unitRepo.IsItemNameExists(unit.Name) == true)
                     errMessage = errMessage + " " + " Unit Name " + unit.Name + " Exists Already";
 
                 if(errMessage == "")
@@ -87,7 +87,7 @@ namespace Stock.Controllers
         [HttpGet]
         public IActionResult Details(Guid id)
         {
-            var unit = _unitRepo.GetUnit(id);
+            Unit unit = _unitRepo.GetItem(id);
             TempData.Keep("CurrentPage");
             if (unit != null)
             {
@@ -101,7 +101,7 @@ namespace Stock.Controllers
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
-            var unit = _unitRepo.GetUnit(id);
+            var unit = _unitRepo.GetItem(id);
             TempData.Keep("CurrentPage");
 
             if (unit != null)
@@ -123,7 +123,7 @@ namespace Stock.Controllers
                 if (unit.Description.Length < 4 || unit.Description == null)
                     errMessage = "Unit Description Must be atleast 4 Characters";
 
-                if (_unitRepo.IsUnitNameExists(unit.Name,unit.Id) == true)
+                if (_unitRepo.IsItemNameExists(unit.Name,unit.Id) == true)
                     errMessage = errMessage + " " + " Unit Name " + unit.Name + " Exists Already";
 
                 if (errMessage == "")
@@ -157,7 +157,7 @@ namespace Stock.Controllers
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
-            var unit = _unitRepo.GetUnit(id);
+            var unit = _unitRepo.GetItem(id);
             TempData.Keep("CurrentPage");
 
             if (unit != null)

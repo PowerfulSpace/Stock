@@ -5,13 +5,13 @@ namespace Stock.Interfaces
 {
     public interface IBrand
     {
-        PaginatedList<Brand> GetUnits(string sortProperty, SortOrder order, string searchText, int pageIndex, int pageSize);
-        Brand GetUnit(Guid id);
-        Brand Greate(Brand unit);
-        Brand Edit(Brand unit);
-        Brand Delete(Brand unit);
+        PaginatedList<Brand> GetItems(string sortProperty, SortOrder order, string searchText, int pageIndex, int pageSize);
+        Brand GetItem(Guid id);
+        Brand Greate(Brand item);
+        Brand Edit(Brand item);
+        Brand Delete(Brand item);
 
-        public bool IsUnitNameExists(string name);
-        public bool IsUnitNameExists(string name, Guid id);
+        public bool IsItemNameExists(string name);
+        public bool IsItemNameExists(string name, Guid id);
     }
 }

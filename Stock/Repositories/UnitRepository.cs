@@ -14,7 +14,7 @@ namespace Stock.Repositories
         {
             _context = context;
         }
-        public PaginatedList<Unit> GetUnits(string sortProperty, SortOrder order, string searchText,int pageIndex,int pageSize)
+        public PaginatedList<Unit> GetItems(string sortProperty, SortOrder order, string searchText, int pageIndex, int pageSize)
         {
             List<Unit> units;
 
@@ -36,7 +36,7 @@ namespace Stock.Repositories
             return retUnits;
         }
 
-        public Unit GetUnit(Guid id) => _context.Units.FirstOrDefault(x => x.Id == id);
+        public Unit GetItem(Guid id) => _context.Units.FirstOrDefault(x => x.Id == id);
 
 
         public Unit Greate(Unit unit)
@@ -62,7 +62,7 @@ namespace Stock.Repositories
             return unit;
         }
 
-        public bool IsUnitNameExists(string name)
+        public bool IsItemNameExists(string name)
         {
             int ct = _context.Units.Where(x => x.Name.ToLower() == name.ToLower()).Count();
             if (ct > 0)
@@ -70,7 +70,7 @@ namespace Stock.Repositories
             else
                 return false;
         }
-        public bool IsUnitNameExists(string name,Guid id)
+        public bool IsItemNameExists(string name,Guid id)
         {
             int ct = _context.Units.Where(x => x.Name.ToLower() == name.ToLower() && x.Id != id).Count();
             if (ct > 0)

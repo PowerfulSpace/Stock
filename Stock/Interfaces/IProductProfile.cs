@@ -5,13 +5,13 @@ namespace Stock.Interfaces
 {
     public interface IProductProfile
     {
-        PaginatedList<ProductProfile> GetUnits(string sortProperty, SortOrder order, string searchText, int pageIndex, int pageSize);
-        ProductProfile GetUnit(Guid id);
-        ProductProfile Greate(ProductProfile unit);
-        ProductProfile Edit(ProductProfile unit);
-        ProductProfile Delete(ProductProfile unit);
+        PaginatedList<ProductProfile> GetItems(string sortProperty, SortOrder order, string searchText, int pageIndex, int pageSize);
+        ProductProfile GetItem(Guid id);
+        ProductProfile Greate(ProductProfile item);
+        ProductProfile Edit(ProductProfile item);
+        ProductProfile Delete(ProductProfile item);
 
-        public bool IsUnitNameExists(string name);
-        public bool IsUnitNameExists(string name, Guid id);
+        public bool IsItemNameExists(string name);
+        public bool IsItemNameExists(string name, Guid id);
     }
 }
