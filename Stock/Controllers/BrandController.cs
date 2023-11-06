@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Stock.Interfaces;
 using Stock.Models;
 using Stock.Services.Pagination;
@@ -6,6 +7,7 @@ using Stock.Services.Sorting;
 
 namespace Stock.Controllers
 {
+    [Authorize]
     public class BrandController : Controller
     {
 
