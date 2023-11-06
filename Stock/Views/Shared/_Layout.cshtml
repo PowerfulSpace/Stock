@@ -37,24 +37,32 @@
 
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link @menuTextColor" asp-area="" asp-controller="Unit" asp-action="Index">Units</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link @menuTextColor" asp-area="" asp-controller="ProductGroup" asp-action="Index">ProductGroups</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link @menuTextColor" asp-area="" asp-controller="ProductProfile" asp-action="Index">ProductProfiles</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link @menuTextColor" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link @menuTextColor" asp-area="" asp-controller="Brand" asp-action="Index">Brands</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link @menuTextColor" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                </li>
+                                <li class="dropdown nav-item pr-2">
+                                    <a class="nav-link dropdown-toggle @menuTextColor" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Master
+                                    </a>
+                                    <ul class="dropdown-menu" style="background:linear-gradient(to right,#ffffff,#defffe)">
+                                        <li class="nav-item">
+                                            <a class="nav-link @menuTextColor" asp-area="" asp-controller="Unit" asp-action="Index">Units</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @menuTextColor" asp-area="" asp-controller="ProductGroup" asp-action="Index">ProductGroups</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @menuTextColor" asp-area="" asp-controller="ProductProfile" asp-action="Index">ProductProfiles</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @menuTextColor" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @menuTextColor" asp-area="" asp-controller="Brand" asp-action="Index">Brands</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link @menuTextColor" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                        </li>
+                                    </ul>
+                              
+                                </li> 
                             }
                             
                         </ul>
