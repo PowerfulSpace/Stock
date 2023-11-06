@@ -15,6 +15,9 @@
             {
                 retString = fullTypeName;
             }
+
+            retString = retString.Replace("]", "");
+
             return retString;
         }
     }
