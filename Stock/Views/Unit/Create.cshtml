@@ -1,12 +1,12 @@
 ﻿@model Unit
 
 @{
-    ViewData["Title"] = "Create";
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+    ViewData["Title"] = @currentModel +" Create";
 }
 
-<h1>Create</h1>
+<h1>@currentModel Create</h1>
 
-<h4>Unit</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">

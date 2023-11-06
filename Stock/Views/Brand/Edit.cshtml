@@ -1,12 +1,11 @@
 ﻿@model Brand
 
 @{
-    ViewData["Title"] = "Edit";
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+    ViewData["Title"] = @currentModel + " Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Brand</h4>
+<h1>@currentModel Edit</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">

@@ -1,13 +1,13 @@
 ﻿@model ProductGroup 
 
 @{
-    ViewData["Title"] = "Details";
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+    ViewData["Title"] = @currentModel + " Details";
 }
 
-<h1>Details</h1>
+<h1>@currentModel Details</h1>
 
 <div>
-    <h4>ProductGroup </h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
