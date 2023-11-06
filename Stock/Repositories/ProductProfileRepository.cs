@@ -6,57 +6,57 @@ using Stock.Models;
 
 namespace Stock.Repositories
 {
-    public class UnitRepository : IUnit
+    public class ProductProfileRepository : IProductProfile
     {
         private readonly InventoryContext _context;
 
-        public UnitRepository(InventoryContext context)
+        public ProductProfileRepository(InventoryContext context)
         {
             _context = context;
         }
-        public PaginatedList<Unit> GetItems(string sortProperty, SortOrder order, string searchText, int pageIndex, int pageSize)
+        public PaginatedList<ProductProfile> GetItems(string sortProperty, SortOrder order, string searchText, int pageIndex, int pageSize)
         {
-            List<Unit> items;
+            List<ProductProfile> items;
 
             if(searchText != "" && searchText != null)
             {
-                items = _context.Units
+                items = _context.ProductProfiles
                     .Where(x => x.Name.Contains(searchText) || x.Description.Contains(searchText))
                     .ToList();
             }
             else
             {
-                items = _context.Units.ToList();
+                items = _context.ProductProfiles.ToList();
             }
 
             items = DoSort(items, sortProperty, order);
 
-            PaginatedList<Unit> retUnits = new PaginatedList<Unit>(items, pageIndex, pageSize);
+            PaginatedList<ProductProfile> retUnits = new PaginatedList<ProductProfile>(items, pageIndex, pageSize);
 
             return retUnits;
         }
 
-        public Unit GetItem(Guid id) => _context.Units.FirstOrDefault(x => x.Id == id);
+        public ProductProfile GetItem(Guid id) => _context.ProductProfiles.FirstOrDefault(x => x.Id == id);
 
 
-        public Unit Greate(Unit item)
+        public ProductProfile Greate(ProductProfile item)
         {
-            _context.Units.Add(item);
+            _context.ProductProfiles.Add(item);
             _context.SaveChanges();
             return item;
         }
 
-        public Unit Edit(Unit item)
+        public ProductProfile Edit(ProductProfile item)
         {
-            _context.Units.Attach(item);
+            _context.ProductProfiles.Attach(item);
             _context.Entry(item).State = EntityState.Modified;
             _context.SaveChanges();
             return item;
         }
 
-        public Unit Delete(Unit item)
+        public ProductProfile Delete(ProductProfile item)
         {
-            _context.Units.Attach(item);
+            _context.ProductProfiles.Attach(item);
             _context.Entry(item).State = EntityState.Deleted;
             _context.SaveChanges();
             return item;
@@ -64,7 +64,7 @@ namespace Stock.Repositories
 
         public bool IsItemNameExists(string name)
         {
-            int ct = _context.Units.Where(x => x.Name.ToLower() == name.ToLower()).Count();
+            int ct = _context.ProductProfiles.Where(x => x.Name.ToLower() == name.ToLower()).Count();
             if (ct > 0)
                 return true;
             else
@@ -72,7 +72,7 @@ namespace Stock.Repositories
         }
         public bool IsItemNameExists(string name,Guid id)
         {
-            int ct = _context.Units.Where(x => x.Name.ToLower() == name.ToLower() && x.Id != id).Count();
+            int ct = _context.ProductProfiles.Where(x => x.Name.ToLower() == name.ToLower() && x.Id != id).Count();
             if (ct > 0)
                 return true;
             else
@@ -80,7 +80,7 @@ namespace Stock.Repositories
         }
 
 
-        private List<Unit> DoSort(List<Unit> items, string sortProperty, SortOrder order)
+        private List<ProductProfile> DoSort(List<ProductProfile> items, string sortProperty, SortOrder order)
         {
             if (sortProperty.ToLower() == "name")
             {
