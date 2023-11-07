@@ -22,11 +22,12 @@ namespace Stock.Repositories
             {
                 items = _context.Products
                     .Where(x => x.Name.Contains(searchText) || x.Description.Contains(searchText))
+                    .Include(x => x.Unit)
                     .ToList();
             }
             else
             {
-                items = _context.Products.ToList();
+                items = _context.Products.Include(x => x.Unit).ToList();
             }
 
             items = DoSort(items, sortProperty, order);
@@ -82,7 +83,14 @@ namespace Stock.Repositories
 
         private List<Product> DoSort(List<Product> items, string sortProperty, SortOrder order)
         {
-            if (sortProperty.ToLower() == "name")
+            if (sortProperty.ToLower() == "code")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.Code).ToList();
+                else
+                    items = items.OrderByDescending(x => x.Code).ToList();
+            }
+            else if(sortProperty.ToLower() == "name")
             {
                 if (order == SortOrder.Ascending)
                     items = items.OrderBy(x => x.Name).ToList();
@@ -95,6 +103,27 @@ namespace Stock.Repositories
                     items = items.OrderBy(x => x.Description).ToList();
                 else
                     items = items.OrderByDescending(x => x.Description).ToList();
+            }
+            else if (sortProperty.ToLower() == "cost")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.Cost).ToList();
+                else
+                    items = items.OrderByDescending(x => x.Cost).ToList();
+            }
+            else if (sortProperty.ToLower() == "price")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.Price).ToList();
+                else
+                    items = items.OrderByDescending(x => x.Price).ToList();
+            }
+            else if (sortProperty.ToLower() == "unit")
+            {
+                if (order == SortOrder.Ascending)
+                    items = items.OrderBy(x => x.Unit.Name).ToList();
+                else
+                    items = items.OrderByDescending(x => x.Unit.Name).ToList();
             }
 
             return items;

@@ -31,6 +31,12 @@
     <thead>
         <tr>
             <th>
+                <i class="@sortModel.GetColumn("code").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("code").SortExpression">
+                    @Html.DisplayNameFor(model => model.Code)
+                </a>
+            </th>
+            <th>
                 <i class="@sortModel.GetColumn("name").SortIcon" arial-hidden="true"></i>
                 <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("name").SortExpression">
                     @Html.DisplayNameFor(model => model.Name)
@@ -42,6 +48,24 @@
                     @Html.DisplayNameFor(model => model.Description)
                 </a>
             </th>
+            <th>
+                <i class="@sortModel.GetColumn("cost").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("cost").SortExpression">
+                    @Html.DisplayNameFor(model => model.Cost)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("price").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("price").SortExpression">
+                    @Html.DisplayNameFor(model => model.Price)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("unit").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("unit").SortExpression">
+                    Units
+                </a>
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -50,10 +74,22 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unit.Name)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Code">

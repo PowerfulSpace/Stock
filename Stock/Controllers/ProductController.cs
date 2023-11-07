@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Stock.Interfaces;
 using Stock.Models;
 using Stock.Services.Pagination;
@@ -12,17 +14,23 @@ namespace Stock.Controllers
     {
 
         private readonly IProduct _productRepo;
+        private readonly IUnit _unitRepo;
 
-        public ProductController(IProduct context)
+        public ProductController(IProduct context, IUnit unitRepo)
         {
             _productRepo = context;
+            _unitRepo = unitRepo;
         }
 
         public IActionResult Index(string sortExpression="", string searchText = "",int currentPage = 1, int pageSize=5)
         {
             SortModel sortModel = new SortModel();
+            sortModel.AddColumn("code");
             sortModel.AddColumn("name");
             sortModel.AddColumn("description");
+            sortModel.AddColumn("cost");
+            sortModel.AddColumn("price");
+            sortModel.AddColumn("unit");
             sortModel.ApplySort(sortExpression);
 
             var products = _productRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
@@ -42,6 +50,7 @@ namespace Stock.Controllers
         public IActionResult Create()
         {
             var product = new Product();
+            ViewBag.Units = GetUnits();
             return View(product);
         }
 
@@ -197,6 +206,30 @@ namespace Stock.Controllers
 
             return RedirectToAction(nameof(Index), new { currentPage = currentPage });
         }
+
+
+        private List<SelectListItem> GetUnits()
+        {
+            List<SelectListItem> listIUnits = new List<SelectListItem>();
+
+            PaginatedList<Unit> units = _unitRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIUnits = units.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Text = "---Select Unit---",
+                Value = ""
+            };
+
+            listIUnits.Insert(0, defItem);
+            return listIUnits;
+        }
+
 
     }
 }
