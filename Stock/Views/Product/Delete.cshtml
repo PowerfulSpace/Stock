@@ -1,4 +1,4 @@
-﻿@model Unit
+﻿@model Product
 
 @{
     string currentModel = Helper.GetTypeName(Model.GetType().ToString());
@@ -27,9 +27,9 @@
     
     <form asp-action="Delete">
         <div class="text-danger btn-group" asp-validation-summary="ModelOnly"></div>
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Code" />
         <input type="submit" value="Delete" class="btn btn-danger" />
-        <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData.Peek("CurrentPage")">Back</a>
+        <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData["CurrentPage"]">Back</a>
     </form>
 </div>
 

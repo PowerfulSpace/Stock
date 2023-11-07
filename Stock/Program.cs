@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<IUnit, UnitRepository>();
 builder.Services.AddScoped<IProductGroup, ProductGroupRepository>();
 builder.Services.AddScoped<IProductProfile, ProductProfileRepository>();
 builder.Services.AddScoped<ICategory, CategoryRepository>();
 builder.Services.AddScoped<IBrand, BrandRepository>();
+
 
 builder.Services.AddDbContext<InventoryContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
