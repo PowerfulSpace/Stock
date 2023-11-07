@@ -4,10 +4,23 @@ using Stock.Data;
 using Stock.Interfaces;
 using Stock.Repositories;
 using Microsoft.AspNetCore.Identity;
-
-
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddLocalization();
+
+var localizationOptions = new RequestLocalizationOptions();
+var supportedCultures = new[]
+{
+                new CultureInfo("en-US"),
+                new CultureInfo("es-ES")
+};
+localizationOptions.SupportedCultures = supportedCultures;
+localizationOptions.SupportedUICultures = supportedCultures;
+localizationOptions.SetDefaultCulture("en-US");
+localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
+
 
 builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<IUnit, UnitRepository>();
@@ -35,6 +48,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseRequestLocalization(localizationOptions);
+
 app.UseRouting();
 
 app.UseAuthentication();
@@ -47,5 +62,5 @@ app.MapRazorPages();
 
 app.Run();
 
-//26 26
+//37 13
 //https://www.youtube.com/watch?v=aWpwWEzBN5I&list=PLKveM2BE9JqHa38TYJg_Sej61_u_uaOLF&index=4

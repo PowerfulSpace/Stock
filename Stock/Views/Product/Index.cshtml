@@ -63,7 +63,7 @@
             <th>
                 <i class="@sortModel.GetColumn("unit").SortIcon" arial-hidden="true"></i>
                 <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("unit").SortExpression">
-                    Units
+                    @Html.DisplayNameFor(model => model.Unit)
                 </a>
             </th>
             <th></th>
@@ -92,17 +92,17 @@
                     @Html.DisplayFor(modelItem => item.Unit.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Code">
+                    <a asp-action="Edit" asp-route-code="@item.Code">
                         <span class="btn btn-sm btn-outline-primary">
                             <i class="bi bi-pencil" aria-hidden="true"></i>
                         </span>
                     </a>
-                    <a asp-action="Details" asp-route-id="@item.Code">
+                    <a asp-action="Details" asp-route-code="@item.Code">
                         <span class="btn btn-sm btn-outline-dark">
                             <i class="bi bi-circle" aria-hidden="true"></i>
                         </span>
                     </a>
-                    <a asp-action="Delete" asp-route-id="@item.Code">
+                    <a asp-action="Delete" asp-route-code="@item.Code">
                         <span class="btn btn-sm btn-outline-danger">
                             <i class="bi bi-x-lg" aria-hidden="true"></i>
                         </span>

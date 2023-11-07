@@ -27,6 +27,7 @@ namespace Stock.Models
 
         [Required]
         [ForeignKey("Unit")]
+        [Display(Name="Unit")]
         public Guid UnitId { get; set; }
         public virtual Unit Unit { get; set; } = null!;
     }

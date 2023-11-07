@@ -7,6 +7,7 @@ namespace Stock.Interfaces
     {
         PaginatedList<Product> GetItems(string sortProperty, SortOrder order, string searchText, int pageIndex, int pageSize);
         Product GetItem(string code);
+        Product GetItem_NoDownload_FG(string code);
         Product Greate(Product item);
         Product Edit(Product item);
         Product Delete(Product item);

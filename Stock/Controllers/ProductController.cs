@@ -113,6 +113,7 @@ namespace Stock.Controllers
         public IActionResult Edit(string code)
         {
             var product = _productRepo.GetItem(code);
+            ViewBag.Units = GetUnits();
             TempData.Keep("CurrentPage");
 
             if (product != null)

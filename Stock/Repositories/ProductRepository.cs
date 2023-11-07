@@ -37,7 +37,8 @@ namespace Stock.Repositories
             return retUnits;
         }
 
-        public Product GetItem(string code) => _context.Products.FirstOrDefault(x => x.Code == code);
+        public Product GetItem(string code) => _context.Products.Include(x => x.Unit).FirstOrDefault(x => x.Code == code);
+        public Product GetItem_NoDownload_FG(string code) => _context.Products.FirstOrDefault(x => x.Code == code);
 
 
         public Product Greate(Product item)
@@ -57,6 +58,8 @@ namespace Stock.Repositories
 
         public Product Delete(Product item)
         {
+            item = GetItem_NoDownload_FG(item.Code);
+
             _context.Products.Attach(item);
             _context.Entry(item).State = EntityState.Deleted;
             _context.SaveChanges();

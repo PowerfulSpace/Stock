@@ -1,6 +1,11 @@
 ﻿@model Product
 
-<h4>Product</h4>
+@{
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+    ViewData["Title"] = @currentModel + " Create";
+}
+
+<h1>@currentModel Create</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
