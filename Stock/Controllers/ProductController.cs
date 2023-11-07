@@ -8,14 +8,14 @@ using Stock.Services.Sorting;
 namespace Stock.Controllers
 {
     [Authorize]
-    public class CategoryController : Controller
+    public class ProductController : Controller
     {
 
-        private readonly ICategory _categoryRepo;
+        private readonly IProduct _productRepo;
 
-        public CategoryController(ICategory context)
+        public ProductController(IProduct context)
         {
-            _categoryRepo = context;
+            _productRepo = context;
         }
 
         public IActionResult Index(string sortExpression="", string searchText = "",int currentPage = 1, int pageSize=5)
@@ -25,9 +25,9 @@ namespace Stock.Controllers
             sortModel.AddColumn("description");
             sortModel.ApplySort(sortExpression);
 
-            var categories = _categoryRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
+            var products = _productRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
 
-            var pager = new PagerModel(categories.TotalRecords, currentPage, pageSize);
+            var pager = new PagerModel(products.TotalRecords, currentPage, pageSize);
             pager.SortExpression = sortExpression;
 
             ViewData["sortModel"] = sortModel;
@@ -35,18 +35,18 @@ namespace Stock.Controllers
             ViewBag.Pager = pager;
             TempData["CurrentPage"] = currentPage;
 
-            return View(categories);
+            return View(products);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            var category = new Category();
-            return View(category);
+            var product = new Product();
+            return View(product);
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public IActionResult Create(Product product)
         {
             var bolret = false;
             string errMessage = "";
@@ -54,15 +54,15 @@ namespace Stock.Controllers
             try
             {
 
-                if (category.Description.Length < 4 || category.Description == null)
-                    errMessage = "Category Description Must be atleast 4 Characters";
+                if (product.Description.Length < 4 || product.Description == null)
+                    errMessage = "Product Description Must be atleast 4 Characters";
 
-                if (_categoryRepo.IsItemNameExists(category.Name) == true)
-                    errMessage = errMessage + " " + " Category Name " + category.Name + " Exists Already";
+                if (_productRepo.IsItemNameExists(product.Name) == true)
+                    errMessage = errMessage + " " + " Product Name " + product.Name + " Exists Already";
 
                 if(errMessage == "")
                 {
-                    category = _categoryRepo.Greate(category);
+                    product = _productRepo.Greate(product);
                     bolret = true;
                 }
  
@@ -76,24 +76,24 @@ namespace Stock.Controllers
             {
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
-                return View(category);
+                return View(product);
             }
             else
             {
-                TempData["SuccessMessage"] = "Category " + category.Name + " Created Successfully";
+                TempData["SuccessMessage"] = "Product " + product.Name + " Created Successfully";
 
                 return RedirectToAction(nameof(Index));
             }
         }
 
         [HttpGet]
-        public IActionResult Details(Guid id)
+        public IActionResult Details(string code)
         {
-            Category category = _categoryRepo.GetItem(id);
+            Product product = _productRepo.GetItem(code);
             TempData.Keep("CurrentPage");
-            if (category != null)
+            if (product != null)
             {
-                return View(category);
+                return View(product);
             }
 
             return NotFound();
@@ -101,36 +101,36 @@ namespace Stock.Controllers
 
 
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(string code)
         {
-            var category = _categoryRepo.GetItem(id);
+            var product = _productRepo.GetItem(code);
             TempData.Keep("CurrentPage");
 
-            if (category != null)
+            if (product != null)
             {
-                return View(category);
+                return View(product);
             }
 
             return NotFound();
         }
 
         [HttpPost]
-        public IActionResult Edit(Category category)
+        public IActionResult Edit(Product product)
         {
             var bolret = false;
             string errMessage = "";
 
             try
             {
-                if (category.Description.Length < 4 || category.Description == null)
-                    errMessage = "Category Description Must be atleast 4 Characters";
+                if (product.Description.Length < 4 || product.Description == null)
+                    errMessage = "Product Description Must be atleast 4 Characters";
 
-                if (_categoryRepo.IsItemNameExists(category.Name,category.Id) == true)
-                    errMessage = errMessage + " " + " Category Name " + category.Name + " Exists Already";
+                if (_productRepo.IsItemNameExists(product.Name,product.Code) == true)
+                    errMessage = errMessage + " " + " Product Name " + product.Name + " Exists Already";
 
                 if (errMessage == "")
                 {
-                    category = _categoryRepo.Edit(category);
+                    product = _productRepo.Edit(product);
                     bolret = true;
                 } 
             }
@@ -148,41 +148,41 @@ namespace Stock.Controllers
             {
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
-                return View(category);
+                return View(product);
             }
             else
             {
-                TempData["SuccessMessage"] = "Category " + category.Name + " Saved Successfully";
+                TempData["SuccessMessage"] = "Product " + product.Name + " Saved Successfully";
                 return RedirectToAction(nameof(Index), new { currentPage = currentPage });
             }
         }
         [HttpGet]
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete(string code)
         {
-            var category = _categoryRepo.GetItem(id);
+            var product = _productRepo.GetItem(code);
             TempData.Keep("CurrentPage");
 
-            if (category != null)
+            if (product != null)
             {
-                return View(category);
+                return View(product);
             }
 
             return NotFound();
         }
 
         [HttpPost]
-        public IActionResult Delete(Category category)
+        public IActionResult Delete(Product product)
         {
             try
             {
-                category = _categoryRepo.Delete(category);
+                product = _productRepo.Delete(product);
             }
             catch (Exception ex)
             {
                 string errMessage = ex.Message;
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
-                return View(category);
+                return View(product);
             }
 
 
@@ -193,7 +193,7 @@ namespace Stock.Controllers
                 currentPage = (int)TempData["CurrentPage"]!;
             }
 
-            TempData["SuccessMessage"] = "Category " + category.Name + " Deleted Successfully";
+            TempData["SuccessMessage"] = "Product " + product.Name + " Deleted Successfully";
 
             return RedirectToAction(nameof(Index), new { currentPage = currentPage });
         }

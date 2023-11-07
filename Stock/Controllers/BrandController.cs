@@ -25,9 +25,9 @@ namespace Stock.Controllers
             sortModel.AddColumn("description");
             sortModel.ApplySort(sortExpression);
 
-            var units = _brandRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
+            var brands = _brandRepo.GetItems(sortModel.SortedProperty, sortModel.SortedOrder, searchText, currentPage, pageSize);
 
-            var pager = new PagerModel(units.TotalRecords, currentPage, pageSize);
+            var pager = new PagerModel(brands.TotalRecords, currentPage, pageSize);
             pager.SortExpression = sortExpression;
 
             ViewData["sortModel"] = sortModel;
@@ -35,7 +35,7 @@ namespace Stock.Controllers
             ViewBag.Pager = pager;
             TempData["CurrentPage"] = currentPage;
 
-            return View(units);
+            return View(brands);
         }
 
         [HttpGet]
