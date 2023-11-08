@@ -12,8 +12,8 @@ using Stock.Data;
 namespace Stock.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20231108104622_6")]
-    partial class _6
+    [Migration("20231108110144_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -275,6 +275,14 @@ namespace Stock.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
+                    b.Property<Guid?>("BrandId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CategoryId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("Cost")
                         .HasColumnType("smallmoney");
 
@@ -291,10 +299,26 @@ namespace Stock.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("smallmoney");
 
+                    b.Property<Guid?>("ProductGroupId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ProductProfileId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("UnitId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Code");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductGroupId");
+
+                    b.HasIndex("ProductProfileId");
 
                     b.HasIndex("UnitId");
 
@@ -417,11 +441,43 @@ namespace Stock.Migrations
 
             modelBuilder.Entity("Stock.Models.Product", b =>
                 {
+                    b.HasOne("Stock.Models.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stock.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stock.Models.ProductGroup", "ProductGroup")
+                        .WithMany()
+                        .HasForeignKey("ProductGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stock.Models.ProductProfile", "ProductProfile")
+                        .WithMany()
+                        .HasForeignKey("ProductProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Stock.Models.Unit", "Unit")
                         .WithMany()
                         .HasForeignKey("UnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("ProductGroup");
+
+                    b.Navigation("ProductProfile");
 
                     b.Navigation("Unit");
                 });
