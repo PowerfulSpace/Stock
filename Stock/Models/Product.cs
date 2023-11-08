@@ -30,5 +30,7 @@ namespace Stock.Models
         [Display(Name="Unit")]
         public Guid UnitId { get; set; }
         public virtual Unit Unit { get; set; } = null!;
+
+
     }
 }

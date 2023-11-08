@@ -12,8 +12,8 @@ using Stock.Data;
 namespace Stock.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20231107025438_AddingProductMaster")]
-    partial class AddingProductMaster
+    [Migration("20231108104622_6")]
+    partial class _6
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
