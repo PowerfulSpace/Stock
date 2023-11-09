@@ -15,11 +15,19 @@ namespace Stock.Controllers
 
         private readonly IProduct _productRepo;
         private readonly IUnit _unitRepo;
+        private readonly IBrand _brandRepo;
+        private readonly ICategory _categoryRepo;
+        private readonly IProductGroup _productGroupRepo;
+        private readonly IProductProfile _productProfileRepo;
 
-        public ProductController(IProduct context, IUnit unitRepo)
+        public ProductController(IProduct context, IUnit unitRepo, IBrand brandRepo, ICategory categoryRepo, IProductGroup productGroupRepo, IProductProfile productProfileRepo)
         {
             _productRepo = context;
             _unitRepo = unitRepo;
+            _brandRepo = brandRepo;
+            _categoryRepo = categoryRepo;
+            _productGroupRepo = productGroupRepo;
+            _productProfileRepo = productProfileRepo;
         }
 
         public IActionResult Index(string sortExpression="", string searchText = "",int currentPage = 1, int pageSize=5)
@@ -51,6 +59,10 @@ namespace Stock.Controllers
         {
             var product = new Product();
             ViewBag.Units = GetUnits();
+            ViewBag.Brands = GetBrands();
+            ViewBag.Categories = GetCategories();
+            ViewBag.ProductGroups = GetProductGroups();
+            ViewBag.ProductProfiles = GetProductProfiles();
             return View(product);
         }
 
@@ -114,6 +126,10 @@ namespace Stock.Controllers
         {
             var product = _productRepo.GetItem(code);
             ViewBag.Units = GetUnits();
+            ViewBag.Brands = GetBrands();
+            ViewBag.Categories = GetCategories();
+            ViewBag.ProductGroups = GetProductGroups();
+            ViewBag.ProductProfiles = GetProductProfiles();
             TempData.Keep("CurrentPage");
 
             if (product != null)
@@ -211,11 +227,11 @@ namespace Stock.Controllers
 
         private List<SelectListItem> GetUnits()
         {
-            List<SelectListItem> listIUnits = new List<SelectListItem>();
+            List<SelectListItem> listIItems = new List<SelectListItem>();
 
-            PaginatedList<Unit> units = _unitRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+            PaginatedList<Unit> items = _unitRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
 
-            listIUnits = units.Select(x => new SelectListItem()
+            listIItems = items.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString()
@@ -227,8 +243,93 @@ namespace Stock.Controllers
                 Value = ""
             };
 
-            listIUnits.Insert(0, defItem);
-            return listIUnits;
+            listIItems.Insert(0, defItem);
+            return listIItems;
+        }
+
+        private List<SelectListItem> GetBrands()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Brand> items = _brandRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Text = "---Select Brand---",
+                Value = ""
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
+        }
+        private List<SelectListItem> GetCategories()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Category> items = _categoryRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Text = "---Select Category---",
+                Value = ""
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
+        }
+        private List<SelectListItem> GetProductGroups()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<ProductGroup> items = _productGroupRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Text = "---Select ProductGroup---",
+                Value = ""
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
+        }
+        private List<SelectListItem> GetProductProfiles()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<ProductProfile> items = _productProfileRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Text = "---Select ProductProfile---",
+                Value = ""
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
         }
 
 
