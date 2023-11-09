@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stock.Data;
 
@@ -11,9 +12,11 @@ using Stock.Data;
 namespace Stock.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    partial class InventoryContextModelSnapshot : ModelSnapshot
+    [Migration("20231109091547_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,12 +275,6 @@ namespace Stock.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
-                    b.Property<Guid?>("BrandId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("Cost")
                         .HasColumnType("smallmoney");
 
@@ -294,24 +291,10 @@ namespace Stock.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("smallmoney");
 
-                    b.Property<Guid?>("ProductGroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ProductProfileId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UnitId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Code");
-
-                    b.HasIndex("BrandId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProductGroupId");
-
-                    b.HasIndex("ProductProfileId");
 
                     b.HasIndex("UnitId");
 
@@ -434,35 +417,11 @@ namespace Stock.Migrations
 
             modelBuilder.Entity("Stock.Models.Product", b =>
                 {
-                    b.HasOne("Stock.Models.Brand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandId");
-
-                    b.HasOne("Stock.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.HasOne("Stock.Models.ProductGroup", "ProductGroup")
-                        .WithMany()
-                        .HasForeignKey("ProductGroupId");
-
-                    b.HasOne("Stock.Models.ProductProfile", "ProductProfile")
-                        .WithMany()
-                        .HasForeignKey("ProductProfileId");
-
                     b.HasOne("Stock.Models.Unit", "Unit")
                         .WithMany()
                         .HasForeignKey("UnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Category");
-
-                    b.Navigation("ProductGroup");
-
-                    b.Navigation("ProductProfile");
 
                     b.Navigation("Unit");
                 });

@@ -34,22 +34,22 @@ namespace Stock.Models
         [ForeignKey("Brand")]
         [Display(Name = "Brand")]
         public Guid? BrandId { get; set; }
-        public virtual Brand Brand { get; set; } = null!;
-
+        public virtual Brand? Brand { get; set; }
 
         [ForeignKey("Category")]
         [Display(Name = "Category")]
         public Guid? CategoryId { get; set; }
-        public virtual Category Category { get; set; } = null!;
+        public virtual Category? Category { get; set; }
 
         [ForeignKey("ProductGroup")]
         [Display(Name = "ProductGroup")]
         public Guid? ProductGroupId { get; set; }
-        public virtual ProductGroup ProductGroup { get; set; } = null!;
+        public virtual ProductGroup? ProductGroup { get; set; }
 
         [ForeignKey("ProductProfile")]
         [Display(Name = "ProductProfile")]
         public Guid? ProductProfileId { get; set; }
-        public virtual ProductProfile ProductProfile { get; set; } = null!;
+        public virtual ProductProfile? ProductProfile { get; set; }
+
     }
 }
