@@ -51,5 +51,11 @@ namespace Stock.Models
         public Guid? ProductProfileId { get; set; }
         public virtual ProductProfile? ProductProfile { get; set; }
 
+
+        public string PhotoUrl { get; set; } = "noimage.png";
+
+        [Display(Name = "ProductPhoto")]
+        [NotMapped]
+        public IFormFile ProductPhoto { get; set; } = null!;
     }
 }
