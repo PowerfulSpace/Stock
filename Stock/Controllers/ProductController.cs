@@ -12,6 +12,7 @@ namespace Stock.Controllers
     [Authorize]
     public class ProductController : Controller
     {
+        private readonly IWebHostEnvironment _webHost;
 
         private readonly IProduct _productRepo;
         private readonly IUnit _unitRepo;
@@ -20,7 +21,14 @@ namespace Stock.Controllers
         private readonly IProductGroup _productGroupRepo;
         private readonly IProductProfile _productProfileRepo;
 
-        public ProductController(IProduct context, IUnit unitRepo, IBrand brandRepo, ICategory categoryRepo, IProductGroup productGroupRepo, IProductProfile productProfileRepo)
+        public ProductController(
+            IProduct context,
+            IUnit unitRepo,
+            IBrand brandRepo,
+            ICategory categoryRepo,
+            IProductGroup productGroupRepo,
+            IProductProfile productProfileRepo,
+            IWebHostEnvironment webHost)
         {
             _productRepo = context;
             _unitRepo = unitRepo;
@@ -28,6 +36,7 @@ namespace Stock.Controllers
             _categoryRepo = categoryRepo;
             _productGroupRepo = productGroupRepo;
             _productProfileRepo = productProfileRepo;
+            _webHost = webHost;
         }
 
         public IActionResult Index(string sortExpression="", string searchText = "",int currentPage = 1, int pageSize=5)
@@ -83,6 +92,12 @@ namespace Stock.Controllers
 
                 if(errMessage == "")
                 {
+
+                    string uniqueFileName = GetUploadedFileName(product);
+                    if(uniqueFileName != null)
+                        product.PhotoUrl = uniqueFileName;
+
+
                     product = _productRepo.Greate(product);
                     bolret = true;
                 }
@@ -332,6 +347,22 @@ namespace Stock.Controllers
             return listIItems;
         }
 
+        private string GetUploadedFileName(Product product)
+        {
+            string uniqueFileName = string.Empty;
 
+            if(product.ProductPhoto != null)
+            {
+                string uploadsFolder = Path.Combine(_webHost.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + product.ProductPhoto.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using(var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    product.ProductPhoto.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
     }
 }
