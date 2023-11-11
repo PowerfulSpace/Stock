@@ -14,5 +14,8 @@ namespace Stock.Interfaces
 
         public bool IsItemNameExists(string name);
         public bool IsItemNameExists(string name, string code);
+
+        public bool IsItemCodeNameExists(string itemCode);
+        public bool IsItemCodeNameExists(string name, string itemCode);
     }
 }

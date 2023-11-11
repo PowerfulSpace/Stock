@@ -67,11 +67,7 @@ namespace Stock.Controllers
         public IActionResult Create()
         {
             var product = new Product();
-            ViewBag.Units = GetUnits();
-            ViewBag.Brands = GetBrands();
-            ViewBag.Categories = GetCategories();
-            ViewBag.ProductGroups = GetProductGroups();
-            ViewBag.ProductProfiles = GetProductProfiles();
+            PopulateViewBags();
             return View(product);
         }
 
@@ -90,7 +86,10 @@ namespace Stock.Controllers
                 if (_productRepo.IsItemNameExists(product.Name) == true)
                     errMessage = errMessage + " " + " Product Name " + product.Name + " Exists Already";
 
-                if(errMessage == "")
+                if (_productRepo.IsItemCodeNameExists(product.Code) == true)
+                    errMessage = errMessage + " " + " Product Code " + product.Code + " Exists Already";
+
+                if (errMessage == "")
                 {
 
                     string uniqueFileName = GetUploadedFileName(product);
@@ -112,6 +111,9 @@ namespace Stock.Controllers
             {
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
+
+                PopulateViewBags();
+
                 return View(product);
             }
             else
@@ -140,11 +142,7 @@ namespace Stock.Controllers
         public IActionResult Edit(string code)
         {
             var product = _productRepo.GetItem(code);
-            ViewBag.Units = GetUnits();
-            ViewBag.Brands = GetBrands();
-            ViewBag.Categories = GetCategories();
-            ViewBag.ProductGroups = GetProductGroups();
-            ViewBag.ProductProfiles = GetProductProfiles();
+            PopulateViewBags();
             TempData.Keep("CurrentPage");
 
             if (product != null)
@@ -168,6 +166,9 @@ namespace Stock.Controllers
 
                 if (_productRepo.IsItemNameExists(product.Name,product.Code) == true)
                     errMessage = errMessage + " " + " Product Name " + product.Name + " Exists Already";
+
+                if (_productRepo.IsItemCodeNameExists(product.Name,product.Code) == true)
+                    errMessage = errMessage + " " + " Product Code " + product.Code + " Exists Already";
 
                 if (errMessage == "")
                 {
@@ -197,6 +198,9 @@ namespace Stock.Controllers
             {
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
+
+                PopulateViewBags();
+
                 return View(product);
             }
             else
@@ -245,6 +249,16 @@ namespace Stock.Controllers
             TempData["SuccessMessage"] = "Product " + product.Name + " Deleted Successfully";
 
             return RedirectToAction(nameof(Index), new { currentPage = currentPage });
+        }
+
+
+        private void PopulateViewBags()
+        {
+            ViewBag.Units = GetUnits();
+            ViewBag.Brands = GetBrands();
+            ViewBag.Categories = GetCategories();
+            ViewBag.ProductGroups = GetProductGroups();
+            ViewBag.ProductProfiles = GetProductProfiles();
         }
 
 

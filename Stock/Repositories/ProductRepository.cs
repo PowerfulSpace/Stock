@@ -94,6 +94,24 @@ namespace Stock.Repositories
         }
 
 
+        public bool IsItemCodeNameExists(string itemCode)
+        {
+            int ct = _context.Products.Where(x => x.Code.ToLower() == itemCode.ToLower()).Count();
+            if (ct > 0)
+                return true;
+            else
+                return false;
+        }
+        public bool IsItemCodeNameExists(string name, string itemCode)
+        {
+            int ct = _context.Products.Where(x => x.Code.ToLower() == itemCode && x.Name.ToLower() != name.ToLower()).Count();
+            if (ct > 0)
+                return true;
+            else
+                return false;
+        }
+
+
         private List<Product> DoSort(List<Product> items, string sortProperty, SortOrder order)
         {
             if (sortProperty.ToLower() == "code")
