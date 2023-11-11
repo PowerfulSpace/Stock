@@ -14,7 +14,7 @@
             <h5>@currentModel Edit</h5>
         </div>
 
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
 
             <div class="btn-group">
                 <div calss="col-8">
@@ -79,6 +79,8 @@
 
                 <div class="col-4 row">
 
+                    <input type="hidden" asp-for="PhotoUrl"/>
+
                     <div class="form-group col-12 justify-content-center align-middle mb-0 pb-0">
                         <img id="PreviewPhoto" src="~/images/@Model.PhotoUrl" alt="Logo Image" width="300" height="300" style="border:1px; margin-top:30px;" />
                     </div>
@@ -89,7 +91,7 @@
                         <div class="custom-file">
                             <input asp-for="ProductPhoto" class="custom-file-input" id="customFile"
                                    onchange="document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0])" />
-                            <label class="custom-file-label" for="customFile">Browse Photo</label>
+                            <label class="custom-file-label" for="customFile">@Model.BreifPhotoName</label>
                         </div>
                     </div>
 

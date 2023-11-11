@@ -57,5 +57,8 @@ namespace Stock.Models
         [Display(Name = "ProductPhoto")]
         [NotMapped]
         public IFormFile ProductPhoto { get; set; } = null!;
+
+        [NotMapped]
+        public string BreifPhotoName { get; set; } = null!;
     }
 }

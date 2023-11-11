@@ -62,5 +62,5 @@ app.MapRazorPages();
 
 app.Run();
 
-//13 40
+//19 10
 //https://www.youtube.com/watch?v=aWpwWEzBN5I&list=PLKveM2BE9JqHa38TYJg_Sej61_u_uaOLF&index=4

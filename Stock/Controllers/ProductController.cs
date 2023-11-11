@@ -171,6 +171,14 @@ namespace Stock.Controllers
 
                 if (errMessage == "")
                 {
+                    if(product.ProductPhoto != null)
+                    {
+                        string uniqueFileName = GetUploadedFileName(product);
+                        if (uniqueFileName != null)
+                            product.PhotoUrl = uniqueFileName;
+                    }
+                   
+
                     product = _productRepo.Edit(product);
                     bolret = true;
                 } 

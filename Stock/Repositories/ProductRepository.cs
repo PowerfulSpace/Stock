@@ -37,7 +37,17 @@ namespace Stock.Repositories
             return retUnits;
         }
 
-        public Product GetItem(string code) => _context.Products.Include(x => x.Unit).FirstOrDefault(x => x.Code == code);
+        public Product GetItem(string code)
+        {
+            var item = _context.Products.Include(x => x.Unit).FirstOrDefault(x => x.Code == code);
+
+            item!.BreifPhotoName = GetBriefPhotoName(item.PhotoUrl);
+
+            return item;
+        }
+
+
+
         public Product GetItem_NoDownload_FG(string code) => _context.Products.FirstOrDefault(x => x.Code == code);
 
 
@@ -133,5 +143,13 @@ namespace Stock.Repositories
         }
 
 
+        private string GetBriefPhotoName(string fileName)
+        {
+            if (fileName == null || fileName == "")
+                return "";
+
+            string[] words = fileName.Split('_');
+            return words[words.Length - 1];
+        }
     }
 }
