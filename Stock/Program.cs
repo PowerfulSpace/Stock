@@ -28,6 +28,7 @@ builder.Services.AddScoped<IProductGroup, ProductGroupRepository>();
 builder.Services.AddScoped<IProductProfile, ProductProfileRepository>();
 builder.Services.AddScoped<ICategory, CategoryRepository>();
 builder.Services.AddScoped<IBrand, BrandRepository>();
+builder.Services.AddScoped<ISupplier, SupplierRepository>();
 
 
 builder.Services.AddDbContext<InventoryContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

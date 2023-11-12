@@ -1,0 +1,131 @@
+﻿@using Stock.Services.Sorting;
+@model IEnumerable<Supplier>
+
+@{
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+
+    ViewData["Title"] = @currentModel + " - Index";
+    SortModel sortModel = (SortModel)ViewData["sortModel"];
+    PagerModel pagerModel = ViewBag.Pager;
+}
+
+<div class="container-fluid btn-group">
+    <div class="col-10">
+        <h3>@ViewData["Title"]</h3>
+    </div>
+    <div class="col-2 justify-content-end">
+        <p>
+            <a asp-action="Create" class="btn btn-success">Create New</a>
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <partial name="_topBar" model="pagerModel" />
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <i class="@sortModel.GetColumn("code").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("code").SortExpression">
+                    @Html.DisplayNameFor(model => model.Code)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("name").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("name").SortExpression">
+                    @Html.DisplayNameFor(model => model.Name)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("emailId").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("emailId").SortExpression">
+                    @Html.DisplayNameFor(model => model.EmailId)
+                </a>
+            </th>
+             <th>
+                <i class="@sortModel.GetColumn("address").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("address").SortExpression">
+                    @Html.DisplayNameFor(model => model.Address)
+                </a>
+            </th>
+            <th>
+                <i class="@sortModel.GetColumn("phone").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("phone").SortExpression">
+                    @Html.DisplayNameFor(model => model.EmailId)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <span class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <span class="btn btn-sm btn-outline-dark">
+                            <i class="bi bi-circle" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <span class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-x-lg" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="row">
+    <div class="col-12">
+        <partial name="_bottomBar" model="pagerModel" />
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        function openSeccessModal(strMessage) {
+            var myDiv = document.getElementById("MyModalSuccessAlertBody");
+            myDiv.innerHTML = strMessage;
+            $('#MyModalSuccess').modal('show');
+        }
+
+        $(document).ready(function () {
+            var msg = "@TempData["SuccessMessage"]";
+            if (msg) {
+                openSeccessModal(msg);
+            }
+        });
+
+    </script>
+}
