@@ -21,7 +21,7 @@ namespace Stock.Repositories
             if(searchText != "" && searchText != null)
             {
                 items = _context.Products
-                    .Where(x => x.Name.Contains(searchText) || x.Description.Contains(searchText))
+                    .Where(x => x.Name.Contains(searchText) || x.Description.Contains(searchText) || x.Code.Contains(searchText))
                     .Include(x => x.Unit)
                     .ToList();
             }
