@@ -38,8 +38,6 @@ namespace Stock.Repositories
 
         public Supplier GetItem(Guid id) => _context.Suppliers.FirstOrDefault(x => x.Id == id);
 
-        public Supplier GetItem_NoDownload_FG(Guid id) => _context.Suppliers.FirstOrDefault(x => x.Id == id);
-
 
         public Supplier Greate(Supplier item)
         {
@@ -58,8 +56,6 @@ namespace Stock.Repositories
 
         public Supplier Delete(Supplier item)
         {
-            item = GetItem_NoDownload_FG(item.Id);
-
             _context.Suppliers.Attach(item);
             _context.Entry(item).State = EntityState.Deleted;
             _context.SaveChanges();
