@@ -44,6 +44,10 @@ namespace Stock.Repositories
         {
             try
             {
+                if (!IsDescriptionValid(item)) return false;
+
+                if (IsItemNameExists(item.Name)) return false;
+
                 _context.Currencies.Add(item);
                 _context.SaveChanges();
                 return true;
@@ -60,6 +64,10 @@ namespace Stock.Repositories
         {
             try
             {
+                if (!IsDescriptionValid(item)) return false;
+
+                if (IsItemNameExists(item.Name, item.Id)) return false;
+
                 _context.Currencies.Attach(item);
                 _context.Entry(item).State = EntityState.Modified;
                 _context.SaveChanges();
@@ -93,7 +101,10 @@ namespace Stock.Repositories
         {
             int ct = _context.Currencies.Where(x => x.Name.ToLower() == name.ToLower()).Count();
             if (ct > 0)
+            {
+                _errors = " Currency Name " + name + " Exists Already";
                 return true;
+            }              
             else
                 return false;
         }
@@ -101,7 +112,9 @@ namespace Stock.Repositories
         {
             int ct = _context.Currencies.Where(x => x.Name.ToLower() == name.ToLower() && x.Id != id).Count();
             if (ct > 0)
+            {
                 return true;
+            }      
             else
                 return false;
         }
@@ -138,5 +151,17 @@ namespace Stock.Repositories
 
             return items;
         }
+
+        private bool IsDescriptionValid(Currency item)
+        {
+            if (item.Description.Length < 4 || item.Description == null)
+            {
+                _errors = "Currency Description Must be atleast 4 Characters";
+                return false;
+            }
+            return true;
+
+        }
+
     }
 }
