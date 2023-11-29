@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Stock.Interfaces;
 using Stock.Models;
 using Stock.Services.Pagination;
@@ -42,6 +44,9 @@ namespace Stock.Controllers
         public IActionResult Create()
         {
             var currency = new Currency();
+
+            PopulateViewBags();
+
             return View(currency);
         }
 
@@ -65,6 +70,9 @@ namespace Stock.Controllers
                 errMessage = errMessage + " " + _currencyRepo.GetErrors();
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
+
+                PopulateViewBags();
+
                 return View(currency);
             }
             else
@@ -93,6 +101,7 @@ namespace Stock.Controllers
         public IActionResult Edit(Guid id)
         {
             var currency = _currencyRepo.GetItem(id);
+            PopulateViewBags();
             TempData.Keep("CurrentPage");
 
             if (currency != null)
@@ -128,6 +137,9 @@ namespace Stock.Controllers
                 errMessage = errMessage + " " + _currencyRepo.GetErrors();
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
+
+                PopulateViewBags();
+
                 return View(currency);
             }
             else
@@ -187,6 +199,36 @@ namespace Stock.Controllers
                 return RedirectToAction(nameof(Index), new { currentPage = currentPage });
             }
         }
+
+
+        private void PopulateViewBags()
+        {
+            ViewBag.ExchangeCurrencyId = GetCurrencies();
+        }
+
+
+        private List<SelectListItem> GetCurrencies()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Currency> items = _currencyRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Text = "---Select Currency---",
+                Value = ""
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
+        }
+
 
     }
 }

@@ -1,6 +1,11 @@
 ﻿@model Currency
 
-<h4>Currency</h4>
+@{
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+    ViewData["Title"] = @currentModel + " Create";
+}
+
+<h1>@currentModel Create</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,21 +23,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="ExchangeCurrencyId" class="control-label"></label>
-                <select asp-for="ExchangeCurrencyId" class ="form-control" asp-items="ViewBag.ExchangeCurrencyId"></select>
+                <select asp-for="ExchangeCurrencyId" class="form-control" asp-items="ViewBag.ExchangeCurrencyId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="ExchangeRate" class="control-label"></label>
                 <input asp-for="ExchangeRate" class="form-control" />
                 <span asp-validation-for="ExchangeRate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group btn-group mt-2">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData.Peek("CurrentPage")">Back</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
