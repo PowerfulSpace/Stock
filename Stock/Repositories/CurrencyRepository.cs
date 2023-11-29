@@ -27,7 +27,7 @@ namespace Stock.Repositories
             }
             else
             {
-                items = _context.Currencies.ToList();
+                items = _context.Currencies.Include(x => x.Currencies).ToList();
             }
 
             items = DoSort(items, sortProperty, order);
@@ -37,8 +37,9 @@ namespace Stock.Repositories
             return retUnits;
         }
 
-        public Currency GetItem(Guid id) => _context.Currencies.FirstOrDefault(x => x.Id == id);
+        public Currency GetItem(Guid id) => _context.Currencies.Include(x => x.Currencies).FirstOrDefault(x => x.Id == id);
 
+        public Currency GetItem_NoDownload_FG(Guid id) => _context.Currencies.FirstOrDefault(x => x.Id == id);
 
         public bool Greate(Currency item)
         {
@@ -84,6 +85,8 @@ namespace Stock.Repositories
         {
             try
             {
+                item = GetItem_NoDownload_FG(item.Id);
+
                 _context.Currencies.Attach(item);
                 _context.Entry(item).State = EntityState.Deleted;
                 _context.SaveChanges();

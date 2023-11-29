@@ -11,6 +11,8 @@ namespace Stock.Interfaces
         bool Edit(Currency item);
         bool Delete(Currency item);
 
+        public Currency GetItem_NoDownload_FG(Guid id);
+
         public bool IsItemNameExists(string name);
         public bool IsItemNameExists(string name, Guid id);
         public bool IsCurrencyCombExists(Guid srcIsCurrencyId, Guid excCurrencyId);
