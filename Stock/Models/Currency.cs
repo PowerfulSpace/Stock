@@ -16,9 +16,9 @@ namespace Stock.Models
         [StringLength(75)]
         public string Description { get; set; } = null!;
 
-        [Required]
+
         [ForeignKey("Currencies")]
-        public int ExchangeCurrencyId { get; set; }
+        public Guid? ExchangeCurrencyId { get; set; }
         public virtual Currency Currencies { get; set; }
 
         [Column(TypeName ="smallmoney")]

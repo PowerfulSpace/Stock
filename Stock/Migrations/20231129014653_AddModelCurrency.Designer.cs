@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stock.Data;
 
@@ -11,9 +12,11 @@ using Stock.Data;
 namespace Stock.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    partial class InventoryContextModelSnapshot : ModelSnapshot
+    [Migration("20231129014653_AddModelCurrency")]
+    partial class AddModelCurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,9 +280,6 @@ namespace Stock.Migrations
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
 
-                    b.Property<Guid?>("ExchangeCurrencyId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("ExchangeRate")
                         .HasColumnType("smallmoney");
 
@@ -289,8 +289,6 @@ namespace Stock.Migrations
                         .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExchangeCurrencyId");
 
                     b.ToTable("Currencies");
                 });
@@ -499,15 +497,6 @@ namespace Stock.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Stock.Models.Currency", b =>
-                {
-                    b.HasOne("Stock.Models.Currency", "Currencies")
-                        .WithMany()
-                        .HasForeignKey("ExchangeCurrencyId");
-
-                    b.Navigation("Currencies");
                 });
 
             modelBuilder.Entity("Stock.Models.Product", b =>
