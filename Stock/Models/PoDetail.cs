@@ -39,9 +39,6 @@ namespace Stock.Models
         public virtual Product Product { get; private set; }
 
 
-        public virtual List<PoDetail> PoDetails { get; set; } = new List<PoDetail>();
-
-
         [StringLength(75)]
         [NotMapped]
         public string Description { get; set; } = string.Empty;
