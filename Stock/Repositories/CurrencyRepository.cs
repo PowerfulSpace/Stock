@@ -94,7 +94,15 @@ namespace Stock.Repositories
             }
             catch (Exception e)
             {
-                _errors = "Delete failed - Sql Exception Occured, Error info: " + e.Message;
+                if (e.InnerException != null)
+                {
+                    _errors = "Delete failed - Sql Exception Occured, Error info: " + e.InnerException.Message;
+                }
+                else
+                {
+                    _errors = "Delete failed - Sql Exception Occured, Error info: " + e.Message;
+                }
+                
                 return false;
             }
 
