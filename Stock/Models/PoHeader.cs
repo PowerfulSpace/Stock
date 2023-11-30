@@ -15,24 +15,6 @@ namespace Stock.Models
         [DataType(DataType.Date)]
         public DateOnly PoDate { get; set; }
 
-
-        [Required]
-        [ForeignKey("Supplier")]
-        public int SupplierId { get; set; }
-        public virtual Supplier Supplier { get; private set; }
-
-
-        [Required]
-        [ForeignKey("BaseCurrency")]
-        public int BaseCurrencyId { get; set; }
-        public virtual Currency BaseCurrency { get; private set; }
-
-
-        [Required]
-        [ForeignKey("PoBaseCurrency")]
-        public int PoCurrencyId { get; set; }
-        public virtual Currency PoBaseCurrency { get; private set; }
-
         [DisplayFormat(DataFormatString = "{0:0.000}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "smallmoney")]
         [Required]
@@ -57,5 +39,26 @@ namespace Stock.Models
         [Required]
         [MaxLength(500)]
         public string Remarks { get; set; }
+
+
+
+        [Required]
+        [ForeignKey("Supplier")]
+        public Guid SupplierId { get; set; }
+        public virtual Supplier Supplier { get; private set; }
+
+
+        [Required]
+        [ForeignKey("BaseCurrency")]
+        public Guid BaseCurrencyId { get; set; }
+        public virtual Currency BaseCurrency { get; private set; }
+
+
+        [Required]
+        [ForeignKey("PoBaseCurrency")]
+        public Guid PoCurrencyId { get; set; }
+        public virtual Currency PoBaseCurrency { get; private set; }
+
+
     }
 }

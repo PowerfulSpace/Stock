@@ -20,5 +20,6 @@ namespace Stock.Data
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Supplier> Suppliers { get; set; } = null!;
         public DbSet<Currency> Currencies { get; set; } = null!;
+        public DbSet<PoHeader> PoHeaders { get; set; } = null!;
     }
 }
