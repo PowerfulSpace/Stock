@@ -30,6 +30,7 @@ builder.Services.AddScoped<ICategory, CategoryRepository>();
 builder.Services.AddScoped<IBrand, BrandRepository>();
 builder.Services.AddScoped<ISupplier, SupplierRepository>();
 builder.Services.AddScoped<ICurrency, CurrencyRepository>();
+builder.Services.AddScoped<IPuchaseOrder, PuchaseOrderRepository>();
 
 
 builder.Services.AddDbContext<InventoryContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -64,5 +65,5 @@ app.MapRazorPages();
 
 app.Run();
 
-//1 10 03
+//2 00 49
 //https://www.youtube.com/watch?v=EpbpmDrn5lw&list=PLKveM2BE9JqF4WwAN2hos0stIzLVS4C0V&index=6
