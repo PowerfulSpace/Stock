@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Stock.Models
 {
+    //Po - пивот
     public class PoHeader
     {
         public Guid Id { get; set; }
