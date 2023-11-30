@@ -229,6 +229,5 @@ namespace Stock.Controllers
             return listIItems;
         }
 
-
     }
 }
