@@ -57,9 +57,9 @@ namespace Stock.Models
 
 
         [Required]
-        [ForeignKey("PoBaseCurrency")]
+        [ForeignKey("PoCurrency")]
         public Guid PoCurrencyId { get; set; }
-        public virtual Currency PoBaseCurrency { get; private set; }
+        public virtual Currency PoCurrency { get; private set; }
 
 
     }
