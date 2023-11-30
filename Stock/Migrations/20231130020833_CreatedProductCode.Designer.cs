@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stock.Data;
 
@@ -11,9 +12,11 @@ using Stock.Data;
 namespace Stock.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    partial class InventoryContextModelSnapshot : ModelSnapshot
+    [Migration("20231130020833_CreatedProductCode")]
+    partial class CreatedProductCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,9 +307,6 @@ namespace Stock.Migrations
                     b.Property<decimal>("Fob")
                         .HasColumnType("smallmoney");
 
-                    b.Property<Guid?>("PoDetailId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("PoHeaderId")
                         .HasColumnType("uniqueidentifier");
 
@@ -322,8 +322,6 @@ namespace Stock.Migrations
                         .HasColumnType("smallmoney");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PoDetailId");
 
                     b.HasIndex("PoHeaderId");
 
@@ -607,10 +605,6 @@ namespace Stock.Migrations
 
             modelBuilder.Entity("Stock.Models.PoDetail", b =>
                 {
-                    b.HasOne("Stock.Models.PoDetail", null)
-                        .WithMany("PoDetails")
-                        .HasForeignKey("PoDetailId");
-
                     b.HasOne("Stock.Models.PoHeader", "PoHeader")
                         .WithMany()
                         .HasForeignKey("PoHeaderId")
@@ -688,11 +682,6 @@ namespace Stock.Migrations
                     b.Navigation("ProductProfile");
 
                     b.Navigation("Unit");
-                });
-
-            modelBuilder.Entity("Stock.Models.PoDetail", b =>
-                {
-                    b.Navigation("PoDetails");
                 });
 #pragma warning restore 612, 618
         }
