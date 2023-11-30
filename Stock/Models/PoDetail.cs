@@ -33,8 +33,9 @@ namespace Stock.Models
 
 
         [Required]
+        [MaxLength(6)]
         [ForeignKey("Product")]
-        public Guid ProductId { get; set; }
+        public string ProductCode { get; set; }
         public virtual Product Product { get; private set; }
 
 
