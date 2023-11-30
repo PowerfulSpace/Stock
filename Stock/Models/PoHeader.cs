@@ -13,7 +13,7 @@ namespace Stock.Models
 
         [Required]
         [DataType(DataType.Date)]
-        public DateOnly PoDate { get; set; }
+        public DateTime PoDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:0.000}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "smallmoney")]
@@ -30,7 +30,7 @@ namespace Stock.Models
 
         [Required]
         [DataType(DataType.Date)]
-        public DateOnly QuotationDate { get; set; }
+        public DateTime QuotationDate { get; set; }
 
         [Required]
         [MaxLength(500)]
