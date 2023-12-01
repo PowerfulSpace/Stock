@@ -148,22 +148,22 @@
                         {
                             <tr>
                                 <td>
-                                    <select asp-for="PoDetails[i].ProductCode" class="form-control" asp-items="ViewBag.Products"></select>
+                                    <select asp-for="@Model.PoDetails[i].ProductCode" class="form-control" asp-items="ViewBag.Products"></select>
                                 </td>
                                 <td>
-                                    <input asp-for="PoDetails[i].Quantity" class="form-control" />
-                                    <span asp-validation-for="PoDetails[i].Quantity"></span>
+                                    <input asp-for="@Model.PoDetails[i].Quantity" class="form-control" />
+                                    <span asp-validation-for="@Model.PoDetails[i].Quantity"></span>
                                 </td>
                                 <td>
-                                    <input asp-for="PoDetails[i].Fob" class="form-control" />
-                                    <span asp-validation-for="PoDetails[i].Fob"></span>
+                                    <input asp-for="@Model.PoDetails[i].Fob" class="form-control" />
+                                    <span asp-validation-for="@Model.PoDetails[i].Fob"></span>
                                 </td>
                                 <td>
-                                    <input asp-for="PoDetails[i].PrcInBaseCur" class="form-control" />
-                                    <span asp-validation-for="PoDetails[i].PrcInBaseCur"></span>
+                                    <input asp-for="@Model.PoDetails[i].PrcInBaseCur" class="form-control" />
+                                    <span asp-validation-for="@Model.PoDetails[i].PrcInBaseCur"></span>
                                 </td>
                                 <td>
-                                    <input asp-for="PoDetails[i].UnitName" class="form-control" readonly/>
+                                    <input asp-for="@Model.PoDetails[i].UnitName" class="form-control"/>
                                 </td>
                                 <th style="width:60px;">
                                     <button id="btnremove-@i" type="button" class="btn btn-sm btn-danger visible" onclick="DeleteItem(this)">
@@ -240,7 +240,15 @@
                 return;
             }
 
-            $(btn).closest('tr').remove();
+            // $(btn).closest('tr').remove();
+
+            var btnIdx = btn.id.replaceAll('btnremove-', '');
+            var idOfQuantity = btnIdx + "__Quantity";
+            var txtQuantity = document.querySelector("[id$='" + idOfQuantity + "']");
+            txtQuantity.value = 0;
+
+            $(btn).closest('tr').hide();
+
         }
 
         //метод который должен добавлять валидацию для новых строк в таблице. Но он вроде бы и не нужен

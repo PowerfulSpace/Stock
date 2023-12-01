@@ -60,7 +60,7 @@ namespace Stock.Controllers
         {
             var poHeader = new PoHeader();
 
-            poHeader.PoDetails.Add(new PoDetail() { Id = Guid.NewGuid() });
+            poHeader.PoDetails.Add(new PoDetail() { Id = Guid.NewGuid(),  });
 
             PopulateViewBags();
 
@@ -70,6 +70,8 @@ namespace Stock.Controllers
         [HttpPost]
         public IActionResult Create(PoHeader poHeader)
         {
+            poHeader.PoDetails.RemoveAll(x => x.Quantity == 0);
+
             var bolret = false;
             string errMessage = "";
 
