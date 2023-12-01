@@ -100,6 +100,24 @@ namespace Stock.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Details(Guid id)
+        {
+            PoHeader poHeader = _puchaseOrderRepo.GetItem(id);
+
+            PopulateViewBags();
+
+            TempData.Keep("CurrentPage");
+            if (poHeader != null)
+            {
+                return View(poHeader);
+            }
+
+            return NotFound();
+        }
+
+
+
 
 
 
