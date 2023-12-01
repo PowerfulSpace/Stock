@@ -1,0 +1,123 @@
+﻿@model PoHeader
+
+@{
+    string currentModel = Helper.GetTypeName(Model.GetType().ToString());
+    ViewData["Title"] = @currentModel + " Create";
+}
+
+
+<div class="card">
+
+    <div class="card-header bg-success text-uppercase text-white text-center mb-2 pt-0" style="height:40px;">
+        <h1>@currentModel Create</h1>
+    </div>
+
+    <form asp-action="Create">
+       <div class="row col-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+           <div class="row">
+                <div class="form-group col-2 p-3">
+                    <label asp-for="PoNumber" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <input asp-for="PoNumber" class="form-control" />
+                    <span asp-validation-for="PoNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-2 p-3"></div>
+
+                <div class="form-group col-2 p-3">
+                    <label asp-for="PoDate" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <input asp-for="PoDate" class="form-control" />
+                    <span asp-validation-for="PoDate" class="text-danger"></span>
+                </div>
+           </div>
+
+            <div class="row">             
+                <div class="form-group col-2 p-3">
+                    <label asp-for="SupplierId" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
+                </div>
+
+                <div class="form-group col-2 p-3"></div>
+
+                <div class="form-group col-2 p-3">
+                    <label asp-for="BaseCurrencyId" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <select asp-for="BaseCurrencyId" class="form-control" asp-items="ViewBag.BaseCurrencyId"></select>
+                </div>
+            </div>
+
+             <div class="row">
+                <div class="form-group col-2 p-3">
+                    <label asp-for="PoCurrencyId" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <select asp-for="PoCurrencyId" class="form-control" asp-items="ViewBag.PoCurrencyId"></select>
+                </div>
+
+                <div class="form-group col-2 p-3"></div>
+
+                <div class="form-group col-2 p-3">
+                    <label asp-for="ExchangeRate" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <input asp-for="ExchangeRate" class="form-control" />
+                    <span asp-validation-for="ExchangeRate" class="text-danger"></span>
+                </div>              
+            </div>
+
+            <div class="row">               
+                <div class="form-group col-2 p-3">
+                    <label asp-for="QuotationNo" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <input asp-for="QuotationNo" class="form-control" />
+                    <span asp-validation-for="QuotationNo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-2 p-3"></div>
+
+                <div class="form-group col-2 p-3">
+                    <label asp-for="QuotationDate" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <input asp-for="QuotationDate" class="form-control" />
+                    <span asp-validation-for="QuotationDate" class="text-danger"></span>
+                </div>             
+            </div>
+
+            <div class="row">
+                <div class="form-group col-2 p-3">
+                    <label asp-for="PaymentTerms" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <input asp-for="PaymentTerms" class="form-control" />
+                    <span asp-validation-for="PaymentTerms" class="text-danger"></span>
+                </div>
+               
+
+                <div class="form-group col-2 p-3"></div>
+                <div class="form-group col-2 p-3">
+                    <label asp-for="Remarks" class="control-label"></label>
+                </div>
+                <div class="form-group col-3 p-3">
+                    <input asp-for="Remarks" class="form-control" />
+                    <span asp-validation-for="Remarks" class="text-danger"></span>
+                </div>
+            </div>
+          
+            <div class="form-group btn-group mt-2">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData.Peek("CurrentPage")">Back</a>
+            </div>
+       </div>
+    </form>
+
+</div>
