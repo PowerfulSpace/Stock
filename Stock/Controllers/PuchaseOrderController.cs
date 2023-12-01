@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Stock.Interfaces;
 using Stock.Models;
 using Stock.Services.Pagination;
@@ -11,10 +13,12 @@ namespace Stock.Controllers
     public class PuchaseOrderController : Controller
     {
         private readonly IPuchaseOrder _puchaseOrderRepo;
+        private readonly IProduct _productRepo;
 
-        public PuchaseOrderController(IPuchaseOrder puchaseOrderRepo)
+        public PuchaseOrderController(IPuchaseOrder puchaseOrderRepo, IProduct productRepo)
         {
             _puchaseOrderRepo = puchaseOrderRepo;
+            _productRepo = productRepo;
         }
 
 
@@ -48,7 +52,9 @@ namespace Stock.Controllers
         {
             var poHeader = new PoHeader();
 
-            //PopulateViewBags();
+            poHeader.PoDetails.Add(new PoDetail() { Id = Guid.NewGuid() });
+
+            PopulateViewBags();
 
             return View(poHeader);
         }
@@ -84,6 +90,37 @@ namespace Stock.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+
+
+
+        private void PopulateViewBags()
+        {
+            ViewBag.Products = GetProducts();
+        }
+
+
+        private List<SelectListItem> GetProducts()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Product> items = _productRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Value = x.Code.ToString(),
+                Text = x.Name
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "---Select Product---"
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
         }
 
     }

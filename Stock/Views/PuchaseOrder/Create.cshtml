@@ -112,6 +112,68 @@
                     <span asp-validation-for="Remarks" class="text-danger"></span>
                 </div>
             </div>
+
+            <div class="col-12 ml-5">
+                <table id="CodesTable" class="table table-borderless table-sm mb-0 pb-0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Product
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                FOB
+                            </th>
+                            <th>
+                                Price
+                            </th>
+                            <th>
+                                Unit
+                            </th>
+                            <th style="width:60px;">
+                                <button id="btnAddDetailRow" type="button" class="btn btn-sm btn-secondary visible">
+                                    Add
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (int i = 0; i < Model.PoDetails.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <select asp-for="PoDetails[i].ProductCode" class="form-control" asp-items="ViewBag.Products"></select>
+                                </td>
+                                <td>
+                                    <input asp-for="PoDetails[i].Quantity" class="form-control" />
+                                    <span asp-validation-for="PoDetails[i].Quantity"></span>
+                                </td>
+                                <td>
+                                    <input asp-for="PoDetails[i].Fob" class="form-control" />
+                                    <span asp-validation-for="PoDetails[i].Fob"></span>
+                                </td>
+                                <td>
+                                    <input asp-for="PoDetails[i].PrcInBaseCur" class="form-control" />
+                                    <span asp-validation-for="PoDetails[i].PrcInBaseCur"></span>
+                                </td>
+                                <td>
+                                    <input asp-for="PoDetails[i].Product.Unit.Name" class="form-control" />
+                                </td>
+                                <th style="width:60px;">
+                                    <button id="btnremove-@i" type="button" class="btn btn-sm btn-danger visible">
+                                        Delete
+                                    </button>
+                                </th>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
           
             <div class="form-group btn-group mt-2">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -121,3 +183,48 @@
     </form>
 
 </div>
+
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        function AddItem(btn) {
+            var table;
+            table = document.getElementById('CodesTable');
+            var rows = table.getElementsByTagName('tr');
+            var rowOuterHtml = rows[rows.length - 1].outerHTML;
+
+            var lastrowIdx = rows.length - 2;
+            var nextrowIdx = eval(lastrowIdx) + 1;
+
+            rowOuterHtml = rowOuterHtml.replaceAll('_' + lastrowIdx + '_', '_' + nextrowIdx + '_');
+            rowOuterHtml = rowOuterHtml.replaceAll('[' + lastrowIdx + ']', '[' + nextrowIdx + ']');
+            rowOuterHtml = rowOuterHtml.replaceAll('-' + lastrowIdx, '-' + nextrowIdx;
+
+            var newRow = table.insertRow();
+            newRow.innerHTML rowOuterHtml;
+
+            var x = document.getElementsByTagName('INPUT');
+
+            for (var cnt = 0; cnt < x.length; cnt++) {
+                if (x[cnt].type == "text" && x[cnt].id.indexOf('_' + nextrowIdx + '_') > 0) {
+                    x[cnt].value = '';
+                }
+                else if (x[cnt].type == "number" && x[cnt].id.indexOf('_' + nextrowIdx + '_') > 0) {
+                    x[cnt].value = 0;
+                }
+            }
+
+        }
+
+
+    </script>
+
+}
