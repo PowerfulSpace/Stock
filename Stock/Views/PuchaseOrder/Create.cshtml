@@ -163,7 +163,7 @@
                                     <input asp-for="PoDetails[i].Product.Unit.Name" class="form-control" />
                                 </td>
                                 <th style="width:60px;">
-                                    <button id="btnremove-@i" type="button" class="btn btn-sm btn-danger visible">
+                                    <button id="btnremove-@i" type="button" class="btn btn-sm btn-danger visible" onclick="DeleteItem(this)">
                                         Delete
                                     </button>
                                 </th>
@@ -222,6 +222,20 @@
                 }
             }
 
+        }
+
+        function DeleteItem(btn) {
+
+            var table;
+            table = document.getElementById('CodesTable');
+            var rows = table.getElementsByTagName('tr');
+
+            if (rows.length == 2) {
+                alert("This row Connot Be Deleted");
+                return;
+            }
+
+            $(btn).closest('tr').remove();
         }
 
 
