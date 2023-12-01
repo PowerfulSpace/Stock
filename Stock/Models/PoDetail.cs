@@ -8,19 +8,21 @@ namespace Stock.Models
     {
         public Guid Id { get; set; }
 
-
+        [Range(1,100,ErrorMessage ="Quantity should be greater than 0 and less than 1000")]
         [Column(TypeName = "smallmoney")]
         [Required]
         public decimal Quantity { get; set; }
 
 
         //Fob - цена поставщика в иностранной валюте
+        [Range(1, 10000000, ErrorMessage = "Fob should be greater than 0")]
         [DisplayFormat(DataFormatString = "{0:0.000}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "smallmoney")]
         [Required]
         public decimal Fob { get; set; }
 
 
+        [Range(1, 10000000, ErrorMessage = "Price should be greater than 0")]
         [DisplayFormat(DataFormatString = "{0:0.000}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "smallmoney")]
         [Required]

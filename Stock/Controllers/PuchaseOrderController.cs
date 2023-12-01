@@ -14,11 +14,19 @@ namespace Stock.Controllers
     {
         private readonly IPuchaseOrder _puchaseOrderRepo;
         private readonly IProduct _productRepo;
+        private readonly ISupplier _supplierRepo;
+        private readonly ICurrency _currencyRepo;
 
-        public PuchaseOrderController(IPuchaseOrder puchaseOrderRepo, IProduct productRepo)
+        public PuchaseOrderController(
+            IPuchaseOrder puchaseOrderRepo,
+            IProduct productRepo,
+            ISupplier supplierRepo,
+            ICurrency currencyRepo)
         {
             _puchaseOrderRepo = puchaseOrderRepo;
             _productRepo = productRepo;
+            _supplierRepo = supplierRepo;
+            _currencyRepo = currencyRepo;
         }
 
 
@@ -80,7 +88,7 @@ namespace Stock.Controllers
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
 
-                //PopulateViewBags();
+                PopulateViewBags();
 
                 return View(poHeader);
             }
@@ -98,6 +106,9 @@ namespace Stock.Controllers
         private void PopulateViewBags()
         {
             ViewBag.Products = GetProducts();
+            ViewBag.Suppliers = GetSuppliers();
+            ViewBag.PoCurrencies = GetPoCurrencies();
+            ViewBag.BaseCurrencies = GetBaseCurrencies();
         }
 
 
@@ -117,6 +128,72 @@ namespace Stock.Controllers
             {
                 Value = "",
                 Text = "---Select Product---"
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
+        }
+
+        private List<SelectListItem> GetSuppliers()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Supplier> items = _supplierRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "---Select Supplier---"
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
+        }
+
+        private List<SelectListItem> GetPoCurrencies()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Currency> items = _currencyRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "---Select Po Currency---"
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
+        }
+
+        private List<SelectListItem> GetBaseCurrencies()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Currency> items = _currencyRepo.GetItems("name", SortOrder.Ascending, "USD", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "---Select Base Currency---"
             };
 
             listIItems.Insert(0, defItem);

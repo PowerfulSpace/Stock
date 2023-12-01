@@ -25,10 +25,10 @@ namespace Stock.Repositories
             if (searchText != "" && searchText != null)
             {
                 items = _context.PoHeaders
+                    .Where(x => x.PoNumber.Contains(searchText) || x.QuotationNo.Contains(searchText))
                     .Include(x => x.Supplier)
                     .Include(x => x.BaseCurrency)
-                    .Include(x => x.PoCurrency)
-                    .Where(x => x.PoNumber.Contains(searchText) || x.QuotationNo.Contains(searchText))
+                    .Include(x => x.PoCurrency)                  
                         .ToList();
             }
             else

@@ -41,7 +41,8 @@
                     <label asp-for="SupplierId" class="control-label"></label>
                 </div>
                 <div class="form-group col-3 p-3">
-                    <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
+                    <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers"></select>
+                    <span asp-validation-for="SupplierId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group col-2 p-3"></div>
@@ -50,7 +51,8 @@
                     <label asp-for="BaseCurrencyId" class="control-label"></label>
                 </div>
                 <div class="form-group col-3 p-3">
-                    <select asp-for="BaseCurrencyId" class="form-control" asp-items="ViewBag.BaseCurrencyId"></select>
+                    <select asp-for="BaseCurrencyId" class="form-control" asp-items="ViewBag.BaseCurrencies"></select>
+                    <span asp-validation-for="BaseCurrencyId" class="text-danger"></span>
                 </div>
             </div>
 
@@ -59,7 +61,8 @@
                     <label asp-for="PoCurrencyId" class="control-label"></label>
                 </div>
                 <div class="form-group col-3 p-3">
-                    <select asp-for="PoCurrencyId" class="form-control" asp-items="ViewBag.PoCurrencyId"></select>
+                    <select asp-for="PoCurrencyId" class="form-control" asp-items="ViewBag.PoCurrencies"></select>
+                    <span asp-validation-for="PoCurrencyId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group col-2 p-3"></div>
@@ -92,7 +95,7 @@
                     <span asp-validation-for="QuotationDate" class="text-danger"></span>
                 </div>             
             </div>
-
+@* 
             <div class="row">
                 <div class="form-group col-2 p-3">
                     <label asp-for="PaymentTerms" class="control-label"></label>
@@ -111,7 +114,7 @@
                     <input asp-for="Remarks" class="form-control" />
                     <span asp-validation-for="Remarks" class="text-danger"></span>
                 </div>
-            </div>
+            </div> *@
 
             <div class="col-12 ml-5">
                 <table id="CodesTable" class="table table-borderless table-sm mb-0 pb-0">
@@ -222,6 +225,8 @@
                 }
             }
 
+            
+
         }
 
         function DeleteItem(btn) {
@@ -238,6 +243,20 @@
             $(btn).closest('tr').remove();
         }
 
+        //метод который должен добавлять валидацию для новых строк в таблице. Но он вроде бы и не нужен
+        //В случае использования в form id="CodeSByAnizForm", и в методе AddItem() в конце вызвать
+        //rebindvalidators()
+        function rebindvalidators(btn) {
+            var $form = $("#CodeSByAnizForm");
+
+            $form.unbind();
+
+            $form.data("validator", null);
+
+            $form.unobtrusive.parse($form);
+
+            $from.validate($form.data("unobtrusiveValidation").options)
+        }
 
     </script>
 

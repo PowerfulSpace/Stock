@@ -14,7 +14,7 @@ namespace Stock.Models
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime PoDate { get; set; }
+        public DateTime PoDate { get; set; } = DateTime.Now.Date;
 
         [DisplayFormat(DataFormatString = "{0:0.000}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "smallmoney")]
@@ -31,15 +31,15 @@ namespace Stock.Models
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime QuotationDate { get; set; }
+        public DateTime QuotationDate { get; set; } = DateTime.Now.Date;
 
         [Required]
         [MaxLength(500)]
-        public string PaymentTerms { get; set; }
+        public string PaymentTerms { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(500)]
-        public string Remarks { get; set; }
+        public string Remarks { get; set; } = string.Empty;
 
         public virtual List<PoDetail> PoDetails { get; set; } = new List<PoDetail>();
 
