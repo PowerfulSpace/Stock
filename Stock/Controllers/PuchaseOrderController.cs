@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stock.Interfaces;
+using Stock.Models;
 using Stock.Services.Pagination;
 using Stock.Services.Sorting;
 
@@ -37,6 +38,13 @@ namespace Stock.Controllers
             TempData["CurrentPage"] = currentPage;
 
             return View(products);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var poHeader = new PoHeader();
+            return View(poHeader);
         }
     }
 }
