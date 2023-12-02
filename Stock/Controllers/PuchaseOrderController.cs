@@ -64,6 +64,8 @@ namespace Stock.Controllers
 
             PopulateViewBags();
 
+            poHeader.PoNumber = _puchaseOrderRepo.GetNewPoNumber();
+
             return View(poHeader);
         }
 
@@ -141,6 +143,9 @@ namespace Stock.Controllers
             ViewBag.Suppliers = GetSuppliers();
             ViewBag.PoCurrencies = GetPoCurrencies();
             ViewBag.BaseCurrencies = GetBaseCurrencies();
+
+            ViewBag.ExchangeRate = GetExchangeRate();
+            ViewBag.UnitNames = GetUnitNames();
         }
 
 
