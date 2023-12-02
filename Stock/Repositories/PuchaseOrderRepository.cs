@@ -181,6 +181,25 @@ namespace Stock.Repositories
 
         }
 
+        public string GetNewPoNumber()
+        {
+            string ponumber = "";
+            var LastPoNumber = _context.PoHeaders.Max(x => x.PoNumber);
+
+            if(LastPoNumber == null)
+            {
+                ponumber = "PO00001";
+            }
+            else
+            {
+                int lastdigit = 1;
+                int.TryParse(LastPoNumber.Substring(2, 5).ToString(), out lastdigit);
+
+                ponumber = "PO" + (lastdigit + 1).ToString().PadLeft(5, '0');
+            }
+
+            return ponumber;
+        }
 
 
 
