@@ -270,29 +270,18 @@
             var table = document.getElementById('CodesTable');
             var rows = table.getElementsByTagName('tr');
 
-            var visibleRowsCount = 0;
-            var x = document.querySelectorAll("[id*='Quantity']");
-
-            for (i = 0; i < x.length; i++) {
-                if (x[i].value > 0)
-                    visibleRowsCount++;
-            }
-
-
-            if (visibleRowsCount <= 1) {
-                alert("This Row Cannot Be Deleted");
-                return;
-            }
-
-
-            // $(btn).closest('tr').remove();
-
             var btnIdx = btn.id.replaceAll('btnremove-', '');
             var idOfQuantity = btnIdx + "__Quantity";
             var txtQuantity = document.querySelector("[id$='" + idOfQuantity + "']");
+
             txtQuantity.value = 0;
 
+            var idOfIsDeleted = btnIdx + "__IsDeleted";
+            var txtIsDeleted = document.querySelector("[id$='" + idOfIsDeleted + "']");
+            txtIsDeleted.value = "true";
+
             $(btn).closest('tr').hide();
+            CalcTotals();
 
         }
 
@@ -494,3 +483,6 @@
     </script>
 
 }
+
+@* Не отображается количество и валюта в низу таблице *@
+@* Search в таблице PoHeader Работает не правильно *@
