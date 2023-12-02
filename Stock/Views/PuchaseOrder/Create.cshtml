@@ -111,7 +111,7 @@
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="CsDiv">
                             @for (int i = 0; i < Model.PoDetails.Count; i++)
                             {
                                 <tr>
@@ -165,6 +165,11 @@
                     </select>
 
                     <input id="txtValue" class="form-group col-2 invisible" />
+                </div>
+
+                <div id="HiddenDiv" style="visibility:hidden;">
+                    <input asp-for="PoDate" class="form-control"/>
+                    <select asp-for="BaseCurrencyId" class="form-control" asp-items="ViewBag.BaseCurrencies"></select>
                 </div>
 
             </div>
@@ -221,7 +226,8 @@
                 }
             }
 
-            
+            var objDiv = document.getElementById('CsDiv');
+            objDiv.scrollTop = objDiv.scrollHeight;
 
         }
         function DeleteItem(btn) {
@@ -287,12 +293,21 @@
             return;
         }
 
+        document.addEventListener('keydown', ShowSearchableList);
 
-        function ShowSearchable(event) {
+        function setSameWidth(srcElement,desElement) {
+            desElement.style.width = "230px";
+        }
+
+        function ShowSearchableList(event) {
 
             if (event.target.id.indexOf('ProductCode') < 0){
                 return;
             }
+
+            var objDiv = document.getElementById('CsDiv');
+            objDiv.scrollTop = objDiv.scrollHeight;
+
 
             var tid = event.target.id;
 
@@ -308,7 +323,7 @@
 
             var lstbox = document.getElementById('mySelect');
 
-            $(txtSearch).after($(lstbox).show('slow'))
+            $(txtSearch).after($(lstbox).show('slow'));
 
             if(event.keyCode === 13 || event.keyCode == 9){
                 txtSearch.value = txtValue;
@@ -338,7 +353,7 @@
 
             for (var i = items.length - 1; i >= 0; i--){
 
-                if(items[i].text.toLowerCase().indexOf(txtSearch.value.toLowerCase())) > -1){
+                if(items[i].text.toLowerCase().indexOf(txtSearch.value.toLowerCase()) > -1){
                     items[i].style.display = 'block';
                     items[i].selected = true;
                     txtValue.value = items[i].value;
