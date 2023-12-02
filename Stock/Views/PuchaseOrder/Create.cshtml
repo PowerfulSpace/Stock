@@ -21,22 +21,12 @@
                     <label asp-for="PoNumber" class="control-label"></label>
                 </div>
                 <div class="form-group col-3 p-3">
-                    <input asp-for="PoNumber" class="form-control" />
+                    <input asp-for="PoNumber" class="form-control" readonly/>
                     <span asp-validation-for="PoNumber" class="text-danger"></span>
                 </div>
 
                 <div class="form-group col-2 p-3"></div>
 
-                <div class="form-group col-2 p-3">
-                    <label asp-for="PoDate" class="control-label"></label>
-                </div>
-                <div class="form-group col-3 p-3">
-                    <input asp-for="PoDate" class="form-control" />
-                    <span asp-validation-for="PoDate" class="text-danger"></span>
-                </div>
-           </div>
-
-            <div class="row">             
                 <div class="form-group col-2 p-3">
                     <label asp-for="SupplierId" class="control-label"></label>
                 </div>
@@ -44,17 +34,8 @@
                     <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers"></select>
                     <span asp-validation-for="SupplierId" class="text-danger"></span>
                 </div>
-
-                <div class="form-group col-2 p-3"></div>
-
-                <div class="form-group col-2 p-3">
-                    <label asp-for="BaseCurrencyId" class="control-label"></label>
-                </div>
-                <div class="form-group col-3 p-3">
-                    <select asp-for="BaseCurrencyId" class="form-control" asp-items="ViewBag.BaseCurrencies"></select>
-                    <span asp-validation-for="BaseCurrencyId" class="text-danger"></span>
-                </div>
-            </div>
+          
+           </div>
 
              <div class="row">
                 <div class="form-group col-2 p-3">
