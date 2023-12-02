@@ -13,157 +13,145 @@
     </div>
 
     <form asp-action="Create">
-       <div class="row col-12">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-12 btn-group">
+            <div class="row col-11 ml-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-           <div class="row">
-                <div class="form-group col-2 p-3">
-                    <label asp-for="PoNumber" class="control-label"></label>
-                </div>
-                <div class="form-group col-3 p-3">
-                    <input asp-for="PoNumber" class="form-control" readonly/>
-                    <span asp-validation-for="PoNumber" class="text-danger"></span>
-                </div>
+                <div class="row">
+                    <div class="form-group col-2 p-3">
+                        <label asp-for="PoNumber" class="control-label"></label>
+                    </div>
+                    <div class="form-group col-3 p-3">
+                        <input asp-for="PoNumber" class="form-control" readonly />
+                        <span asp-validation-for="PoNumber" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group col-2 p-3"></div>
+                    <div class="form-group col-2 p-3"></div>
 
-                <div class="form-group col-2 p-3">
-                    <label asp-for="SupplierId" class="control-label"></label>
-                </div>
-                <div class="form-group col-3 p-3">
-                    <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers"></select>
-                    <span asp-validation-for="SupplierId" class="text-danger"></span>
-                </div>
-          
-           </div>
+                    <div class="form-group col-2 p-3">
+                        <label asp-for="SupplierId" class="control-label"></label>
+                    </div>
+                    <div class="form-group col-3 p-3">
+                        <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers"></select>
+                        <span asp-validation-for="SupplierId" class="text-danger"></span>
+                    </div>
 
-             <div class="row">
-                <div class="form-group col-2 p-3">
-                    <label asp-for="PoCurrencyId" class="control-label"></label>
-                </div>
-                <div class="form-group col-3 p-3">
-                    <select asp-for="PoCurrencyId" class="form-control" asp-items="ViewBag.PoCurrencies"></select>
-                    <span asp-validation-for="PoCurrencyId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group col-2 p-3"></div>
+                <div class="row">
+                    <div class="form-group col-2 p-3">
+                        <label asp-for="PoCurrencyId" class="control-label"></label>
+                    </div>
+                    <div class="form-group col-3 p-3">
+                        <select asp-for="PoCurrencyId" class="form-control" asp-items="ViewBag.PoCurrencies" onclick="getExRate(this)"></select>
+                        <span asp-validation-for="PoCurrencyId" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group col-2 p-3">
-                    <label asp-for="ExchangeRate" class="control-label"></label>
-                </div>
-                <div class="form-group col-3 p-3">
-                    <input asp-for="ExchangeRate" class="form-control" />
-                    <span asp-validation-for="ExchangeRate" class="text-danger"></span>
-                </div>              
-            </div>
+                    <div class="form-group col-2 p-3"></div>
 
-            <div class="row">               
-                <div class="form-group col-2 p-3">
-                    <label asp-for="QuotationNo" class="control-label"></label>
-                </div>
-                <div class="form-group col-3 p-3">
-                    <input asp-for="QuotationNo" class="form-control" />
-                    <span asp-validation-for="QuotationNo" class="text-danger"></span>
+                    <div class="form-group col-2 p-3">
+                        <label asp-for="ExchangeRate" class="control-label"></label>
+                    </div>
+                    <div class="form-group col-3 p-3">
+                        <input asp-for="ExchangeRate" class="form-control" id="txtExtrateRate" readonly />
+                        <span asp-validation-for="ExchangeRate" class="text-danger"></span>
+                    </div>
                 </div>
 
-                <div class="form-group col-2 p-3"></div>
+                <div class="row">
+                    <div class="form-group col-2 p-3">
+                        <label asp-for="QuotationNo" class="control-label"></label>
+                    </div>
+                    <div class="form-group col-3 p-3">
+                        <input asp-for="QuotationNo" class="form-control" />
+                        <span asp-validation-for="QuotationNo" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group col-2 p-3">
-                    <label asp-for="QuotationDate" class="control-label"></label>
-                </div>
-                <div class="form-group col-3 p-3">
-                    <input asp-for="QuotationDate" class="form-control" />
-                    <span asp-validation-for="QuotationDate" class="text-danger"></span>
-                </div>             
-            </div>
-@* 
-            <div class="row">
-                <div class="form-group col-2 p-3">
-                    <label asp-for="PaymentTerms" class="control-label"></label>
-                </div>
-                <div class="form-group col-3 p-3">
-                    <input asp-for="PaymentTerms" class="form-control" />
-                    <span asp-validation-for="PaymentTerms" class="text-danger"></span>
-                </div>
-               
+                    <div class="form-group col-2 p-3"></div>
 
-                <div class="form-group col-2 p-3"></div>
-                <div class="form-group col-2 p-3">
-                    <label asp-for="Remarks" class="control-label"></label>
+                    <div class="form-group col-2 p-3">
+                        <label asp-for="QuotationDate" class="control-label"></label>
+                    </div>
+                    <div class="form-group col-3 p-3">
+                        <input asp-for="QuotationDate" class="form-control" />
+                        <span asp-validation-for="QuotationDate" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="form-group col-3 p-3">
-                    <input asp-for="Remarks" class="form-control" />
-                    <span asp-validation-for="Remarks" class="text-danger"></span>
-                </div>
-            </div> *@
 
-            <div class="col-12 ml-5">
-                <table id="CodesTable" class="table table-borderless table-sm mb-0 pb-0">
-                    <thead>
-                        <tr>
-                            <th>
-                                Product
-                            </th>
-                            <th>
-                                Quantity
-                            </th>
-                            <th>
-                                FOB
-                            </th>
-                            <th>
-                                Price
-                            </th>
-                            <th>
-                                Unit
-                            </th>
-                            <th style="width:60px;">
-                                <button id="btnAddDetailRow" type="button" class="btn btn-sm btn-secondary visible" onclick="AddItem(this)">
-                                    Add
-                                </button>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @for (int i = 0; i < Model.PoDetails.Count; i++)
-                        {
+                <div class="col-12 ml-5">
+                    <table id="CodesTable" class="table table-borderless table-sm mb-0 pb-0">
+                        <thead>
                             <tr>
-                                <td>
-                                    <select asp-for="@Model.PoDetails[i].ProductCode" class="form-control" asp-items="ViewBag.Products"></select>
-                                </td>
-                                <td>
-                                    <input asp-for="@Model.PoDetails[i].Quantity" class="form-control" />
-                                    <span asp-validation-for="@Model.PoDetails[i].Quantity"></span>
-                                </td>
-                                <td>
-                                    <input asp-for="@Model.PoDetails[i].Fob" class="form-control" />
-                                    <span asp-validation-for="@Model.PoDetails[i].Fob"></span>
-                                </td>
-                                <td>
-                                    <input asp-for="@Model.PoDetails[i].PrcInBaseCur" class="form-control" />
-                                    <span asp-validation-for="@Model.PoDetails[i].PrcInBaseCur"></span>
-                                </td>
-                                <td>
-                                    <input asp-for="@Model.PoDetails[i].UnitName" class="form-control" readonly/>
-                                </td>
+                                <th>
+                                    Product
+                                </th>
+                                <th>
+                                    Quantity
+                                </th>
+                                <th>
+                                    FOB
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Unit
+                                </th>
                                 <th style="width:60px;">
-                                    <button id="btnremove-@i" type="button" class="btn btn-sm btn-danger visible" onclick="DeleteItem(this)">
-                                        Delete
+                                    <button id="btnAddDetailRow" type="button" class="btn btn-sm btn-secondary visible" onclick="AddItem(this)">
+                                        Add
                                     </button>
                                 </th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            @for (int i = 0; i < Model.PoDetails.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <select asp-for="@Model.PoDetails[i].ProductCode" class="form-control" asp-items="ViewBag.Products"></select>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.PoDetails[i].Quantity" class="form-control" />
+                                        <span asp-validation-for="@Model.PoDetails[i].Quantity"></span>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.PoDetails[i].Fob" class="form-control" />
+                                        <span asp-validation-for="@Model.PoDetails[i].Fob"></span>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.PoDetails[i].PrcInBaseCur" class="form-control" />
+                                        <span asp-validation-for="@Model.PoDetails[i].PrcInBaseCur"></span>
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.PoDetails[i].UnitName" class="form-control" readonly />
+                                    </td>
+                                    <th style="width:60px;">
+                                        <button id="btnremove-@i" type="button" class="btn btn-sm btn-danger visible" onclick="DeleteItem(this)">
+                                            Delete
+                                        </button>
+                                    </th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
-
-          
-            <div class="form-group btn-group mt-2">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData.Peek("CurrentPage")">Back</a>
+            <div class="form-group btn-group col-1">
+                <select asp-items="ViewBag.ExchangeRate" id="dropdownExRate" class="form-control" size="1" style="visibility: hidden">
+                </select>
             </div>
-       </div>
+        </div>
+
+
+        <div class="col-12 form-group btn-group mt-2">
+            <input type="submit" value="Create" class="btn btn-primary" />
+            <a class="btn btn-secondary" asp-action="Index" asp-route-currentPage="@TempData.Peek("CurrentPage")">Back</a>
+        </div>
+
     </form>
 
 </div>
@@ -256,6 +244,24 @@
 
             $from.validate($form.data("unobtrusiveValidation").options)
         }
+
+
+        function getExRate(currencyid){
+
+            var lstbox = document.getElementById('dropdownExRate');
+            var txtExtrate = document.getElementById('txtExtrateRate');
+
+            var items = lstbox.options;
+
+            for (var i = items.length - 1; i >= 0; i--){
+                if(items[i].value == currencyid.value){
+                    txtExtrate.value = items[i].text;
+                    return;
+                }
+            }
+            return;
+        }
+
 
     </script>
 
