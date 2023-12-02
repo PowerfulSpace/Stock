@@ -118,8 +118,20 @@ namespace Stock.Controllers
             return NotFound();
         }
 
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
 
+            var item = _puchaseOrderRepo.GetItem(id);
+            TempData.Keep("CurrentPage");
 
+            if (item != null)
+            {
+                return View(item);
+            }
+
+            return NotFound();
+        }
 
 
 
