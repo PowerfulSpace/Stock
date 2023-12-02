@@ -232,5 +232,41 @@ namespace Stock.Controllers
             return listIItems;
         }
 
+        private List<SelectListItem> GetExchangeRate()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Currency> items = _currencyRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Value = x.Id.ToString(),
+                Text = x.ExchangeRate.ToString()
+            }).ToList();
+
+            return listIItems;
+        }
+
+        private List<SelectListItem> GetUnitNames()
+        {
+            List<SelectListItem> listIItems = new List<SelectListItem>();
+
+            PaginatedList<Product> items = _productRepo.GetItems("name", SortOrder.Ascending, "", 1, 1000);
+
+            listIItems = items.Select(x => new SelectListItem()
+            {
+                Value = x.Code.ToString(),
+                Text = x.Unit.Name
+            }).ToList();
+
+            SelectListItem defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "---Select Unit---"
+            };
+
+            listIItems.Insert(0, defItem);
+            return listIItems;
+        }
     }
 }
