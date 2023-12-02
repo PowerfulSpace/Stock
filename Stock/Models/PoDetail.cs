@@ -50,5 +50,8 @@ namespace Stock.Models
         public string UnitName { get; set; } = "Шт";
         [NotMapped]
         public bool IsDeleted { get; set; } = false;
+
+        [NotMapped]
+        public decimal Total { get; set; }
     }
 }
