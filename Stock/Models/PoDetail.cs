@@ -47,7 +47,7 @@ namespace Stock.Models
         public string Description { get; set; } = string.Empty;
         [StringLength(25)]
         [NotMapped]
-        public string UnitName { get; set; } = string.Empty;
+        public string UnitName { get; set; } = "Шт";
         [NotMapped]
         public bool IsDeleted { get; set; } = false;
     }

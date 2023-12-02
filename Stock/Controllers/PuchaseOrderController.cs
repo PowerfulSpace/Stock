@@ -60,7 +60,7 @@ namespace Stock.Controllers
         {
             var poHeader = new PoHeader();
 
-            poHeader.PoDetails.Add(new PoDetail() { Id = Guid.NewGuid(),  });
+            poHeader.PoDetails.Add(new PoDetail() { Id = Guid.NewGuid()});
 
             PopulateViewBags();
 
