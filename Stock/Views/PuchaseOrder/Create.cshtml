@@ -125,19 +125,20 @@
                                         <input asp-for="PoDetails[i].Description" class="form-control form-control-plaintext" readonly/>
                                     </td>
                                     <td>
-                                        <input asp-for="PoDetails[i].Quantity" class="form-control" />
+                                        <input asp-for="PoDetails[i].Quantity" class="form-control QtyTotal" />
                                         <span asp-validation-for="PoDetails[i].Quantity"></span>
                                     </td>
                                     <td>
-                                        <input asp-for="PoDetails[i].Fob" class="form-control" />
+                                        <input asp-for="PoDetails[i].Fob" class="form-control FobTotal" />
                                         <span asp-validation-for="PoDetails[i].Fob"></span>
                                     </td>
                                     <td>
-                                        <input asp-for="PoDetails[i].PrcInBaseCur" class="form-control form-control-plaintext PriceTotal" readonly />
+                                        <input asp-for="PoDetails[i].PrcInBaseCur" class="form-control form-control-plaintext PriceTotal PriceTotal" readonly />
                                         <span asp-validation-for="PoDetails[i].PrcInBaseCur"></span>
                                     </td>
                                     <td>
                                         <input asp-for="PoDetails[i].UnitName" class="form-control" readonly />
+                                        <input type="hidden" asp-for="PoDetails[i].IsDeleted"/>
                                     </td>
                                     <td>
                                         <input asp-for="PoDetails[i].Total" class="form-control form-control-plaintext AmountTotal" readonly />
@@ -151,6 +152,38 @@
                             }
                         </tbody>
                     </table>
+
+                    <table class="table table-sm mb-0 pb-0 border">
+                        <thead>
+                            <tr>
+                                <th style="width:13%;">
+                                    Total
+                                </th>
+
+                                <th style="width:13%;">
+                                </th>
+
+                                <th style="width:13%;">
+                                    <input type="text" id="txtQtyTotal" class="form-control form-control-plaintext" value="" />
+                                </th>
+                                <th style="width:13%;">
+                                </th>
+                                 <th style="width:13%;">
+                                </th>
+                                <th style="width:13%;">
+                                </th>
+
+                                <th style="width:13%;">
+                                    <input type="text" id="txtAmountTotal" class="form-control form-control-plaintext" value="" />
+                                </th>
+
+                                <th style="width:9%;">
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+
+
                 </div>
 
             </div>
@@ -170,6 +203,8 @@
                 <div id="HiddenDiv" style="visibility:hidden;">
                     <input asp-for="PoDate" class="form-control"/>
                     <select asp-for="BaseCurrencyId" class="form-control" asp-items="ViewBag.BaseCurrencies"></select>
+
+                    <select id="dropdownUnitNames" class="form-control" size="1" style="visibility: hidden" asp-items="ViewBag.UnitNames"></select>
                 </div>
 
             </div>
@@ -367,7 +402,93 @@
 
         }
 
+        function CalcTotals() {
 
+            var x = document / getElementsByTagName('QtyTotal');
+
+            var totalQty = 0;
+            var Amount = 0;
+            var totalAmount = 0;
+            var txtExchangeRate = eval(document.getElementById('txtExchangeRate').value);
+
+
+            var i;
+
+            for (i = 0; i < x.length; i++){
+
+                var idofIsDeleted = i + "__IsDeleted";
+                var idofIsPrice = i + "__PrcInBaseCur";
+                var idofFob = i + "__IsFob";
+                var idofTotal = i + "__Total";
+
+
+                var hidIsDelId = document.querySelector("[id$='" + idofIsDeleted + "']").id;
+                var priceTxtId = document.querySelector("[id$='" + idofIsPrice + "']").id;
+                var fobTxtId = document.querySelector("[id$='" + idofFob + "']").id;
+                var totalTxtId = document.querySelector("[id$='" + idofTotal + "']").id;
+
+
+                if (document.getElementById(hidIsDelId).value != 'true') {
+
+                    totalQty = totalQty + eval(x[i].value);
+
+                    var txttotal = document.getElementById('totalTxtId');
+                    var txtprice = document.getElementById('priceTxtId');
+                    var txtfob = document.getElementById('fobTxtId');
+
+                    txtprice.value = txtExchangeRate + eval(txtfob.value);
+                    txttotal.value = eval(x[i].value) * txtprice.value;
+                    totalAmount = eval(totalAmount) + eval(txttotal.value);
+
+                }
+            }
+
+            document.getElementById('txtQtyTotal').value = totalQty;
+            document.getElementById('txtAmountTotal').value = totalAmount.toFixed(2);
+
+            return;
+
+        }
+
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('QtyTotal')
+                || e.target.classList.contains('PriceTotal')
+                || e.target.classList.contains('FobTotal')
+                || e.target.id == 'PoCurrencyId'
+            ) {
+                CalcTotals();
+            }
+        }, false);
+
+
+
+        function SetUnitName(txtProductCode){
+
+            var txtunitNameId = txtProductCode.id.replaceAll('ProductCode','UnitName');
+
+            var txtunitName = document.getElementById(txtunitNameId);
+
+            var lstbox = document.getElementById('dropdownUnitNames');
+
+            var items = lstbox.options;
+
+            for (var i = items.length - 1; i >= 0; i--){
+
+                if (items[i].value == txtProductCode.value) {
+                    txtunitName.value = items[i].text;
+                    return;
+                }
+            }
+
+            return;
+        }
+
+        document.addEventListener('change', function (e) {
+            if (e.target.id.indexOf('ProductCode') >= 0) {
+                SetUnitName(event.target);
+            }
+        }, false);
+           
 
 
     </script>
