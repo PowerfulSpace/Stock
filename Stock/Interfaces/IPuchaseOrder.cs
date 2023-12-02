@@ -16,8 +16,9 @@ namespace Stock.Interfaces
 
         public bool IsQuotationNoExists(string quoNumber);
         public bool IsQuotationNoExists(string quoNumber, Guid id);
-
+      
         public string GetErrors();
+        public string GetNewPoNumber();
 
     }
 }
