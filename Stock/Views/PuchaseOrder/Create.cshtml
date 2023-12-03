@@ -8,7 +8,7 @@
 
 <div class="card">
 
-    <div class="card-header bg-success text-uppercase text-white text-center mb-2 pt-0" style="height:40px;">
+    <div class="card-header bg-success text-uppercase text-white  text-white text-center mb-2 pt-0" style="height:25px;">
         <h1>@currentModel Create</h1>
     </div>
 
@@ -43,7 +43,7 @@
                         <label asp-for="PoCurrencyId" class="control-label"></label>
                     </div>
                     <div class="form-group col-3 p-3">
-                        <select asp-for="PoCurrencyId" class="form-control" asp-items="ViewBag.PoCurrencies" onclick="getExRate(this)"></select>
+                        <select asp-for="PoCurrencyId" class="form-control" id="txtExchangeRate" asp-items="ViewBag.PoCurrencies" onchange="getExRate(this);"></select>
                         <span asp-validation-for="PoCurrencyId" class="text-danger"></span>
                     </div>
 
@@ -300,37 +300,41 @@
             $from.validate($form.data("unobtrusiveValidation").options)
         }
 
-
-        function getExRate(currencyid){
+        //Исправлен
+        function getExRate(currencyid) {
 
             var lstbox = document.getElementById('dropdownExRate');
-            var txtExtrate = document.getElementById('txtExtrateRate');
+
+            var txtExrate = document.getElementById('txtExchangeRate');
 
             var items = lstbox.options;
 
-            for (var i = items.length - 1; i >= 0; i--){
-                if(items[i].value == currencyid.value){
-                    txtExtrate.value = items[i].text;
+            for (var i = items.length - 1; i >= 0; i--) {
+                if (items[i].value == currencyid.value) {
+                    txtExrate.value = items[i].text;
                     return;
                 }
             }
             return;
         }
 
+        //Исправлен
         document.addEventListener('keydown', ShowSearchableList);
 
-        function setSameWidth(srcElement,desElement) {
+        //исправлен
+        function setSameWidth(srcElement, desElement) {
+            //style = window.getComputedStyle(srcElement);
+            //wdt = style.getPropertyValue('width');
+            //desElement.style.width = wdt;
             desElement.style.width = "230px";
         }
 
+        //Исправлен
         function ShowSearchableList(event) {
 
-            if (event.target.id.indexOf('ProductCode') < 0){
+            if (event.target.id.indexOf('ProductCode') < 0) {
                 return;
             }
-
-            var objDiv = document.getElementById('CsDiv');
-            objDiv.scrollTop = objDiv.scrollHeight;
 
 
             var tid = event.target.id;
@@ -344,16 +348,19 @@
             var txtSearch = event.target;
 
 
-
-            var lstbox = document.getElementById('mySelect');
+            var lstbox = document.getElementById("mySelect");
 
             $(txtSearch).after($(lstbox).show('slow'));
 
-            if(event.keyCode === 13 || event.keyCode == 9){
-                txtSearch.value = txtValue;
-                lstbox.style.visibility = 'hidden';
 
-                var divlst = document.getElementById('HiddenDiv');
+
+
+            if (event.keyCode === 13 || event.keyCode == 9) {
+
+                txtSearch.value = txtValue.value;
+                lstbox.style.visibility = "hidden";
+
+                var divlst = document.getElementById("HiddenDiv");
                 $(divlst).after($(lstbox).show('slow'));
 
                 if (event.keyCode === 13) {
@@ -361,39 +368,42 @@
                     txtSearch.focus();
                     return;
                 }
-                else{
+                else
                     return;
-                }
             }
 
-            setSameWidth(txtSearch,lstbox);
+            setSameWidth(txtSearch, lstbox);
             lstbox.style.visibility = "visible";
+
 
             txtValue.value = "";
             txtText.value = "";
 
-
             var items = lstbox.options;
-
-            for (var i = items.length - 1; i >= 0; i--){
-
-                if(items[i].text.toLowerCase().indexOf(txtSearch.value.toLowerCase()) > -1){
+            for (var i = items.length - 1; i >= 0; i--) {
+                if (items[i].text.toLowerCase().indexOf(txtSearch.value.toLowerCase()) > -1) {
                     items[i].style.display = 'block';
                     items[i].selected = true;
                     txtValue.value = items[i].value;
                     txtText.value = items[i].text;
                 }
-                else{
+                else {
                     items[i].style.display = 'none';
                     items[i].selected = false;
                 }
             }
 
+
+            var objDiv = document.getElementById("CsDiv");
+            objDiv.scrollTop = objDiv.scrollHeight - 200;
+
         }
 
+        //исправлен
         function CalcTotals() {
 
-            var x = document / getElementsByTagName('QtyTotal');
+            var x = document.getElementsByClassName('QtyTotal');
+
 
             var totalQty = 0;
             var Amount = 0;
@@ -401,34 +411,40 @@
             var txtExchangeRate = eval(document.getElementById('txtExchangeRate').value);
 
 
+
             var i;
 
-            for (i = 0; i < x.length; i++){
+            for (i = 0; i < x.length; i++) {
 
                 var idofIsDeleted = i + "__IsDeleted";
-                var idofIsPrice = i + "__PrcInBaseCur";
-                var idofFob = i + "__IsFob";
+
+                var idofPrice = i + "__PrcInBaseCur";
+
+                var idofFob = i + "__Fob";
+
                 var idofTotal = i + "__Total";
 
-
                 var hidIsDelId = document.querySelector("[id$='" + idofIsDeleted + "']").id;
-                var priceTxtId = document.querySelector("[id$='" + idofIsPrice + "']").id;
+
+                var priceTxtId = document.querySelector("[id$='" + idofPrice + "']").id;
+
                 var fobTxtId = document.querySelector("[id$='" + idofFob + "']").id;
+
                 var totalTxtId = document.querySelector("[id$='" + idofTotal + "']").id;
 
 
-                if (document.getElementById(hidIsDelId).value != 'true') {
-
+                if (document.getElementById(hidIsDelId).value != "true") {
                     totalQty = totalQty + eval(x[i].value);
 
-                    var txttotal = document.getElementById('totalTxtId');
-                    var txtprice = document.getElementById('priceTxtId');
-                    var txtfob = document.getElementById('fobTxtId');
+                    var txttotal = document.getElementById(totalTxtId);
+                    var txtprice = document.getElementById(priceTxtId);
+                    var txtfob = document.getElementById(fobTxtId);
 
-                    txtprice.value = txtExchangeRate + eval(txtfob.value);
+                    txtprice.value = txtExchangeRate * eval(txtfob.value);
+
                     txttotal.value = eval(x[i].value) * txtprice.value;
-                    totalAmount = eval(totalAmount) + eval(txttotal.value);
 
+                    totalAmount = eval(totalAmount) + eval(txttotal.value);
                 }
             }
 
@@ -436,24 +452,31 @@
             document.getElementById('txtAmountTotal').value = totalAmount.toFixed(2);
 
             return;
-
         }
 
+        //Исправлен
+        document.addEventListener('change', function (e) {
+            if (event.target.id.indexOf('ProductCode') >= 0) {
+                SetUnitName(event.target);
+            }
+
+        }, false);
+
+        //Исправлен
         document.addEventListener('change', function (e) {
             if (e.target.classList.contains('QtyTotal')
                 || e.target.classList.contains('PriceTotal')
                 || e.target.classList.contains('FobTotal')
-                || e.target.id == 'PoCurrencyId'
+                || event.target.id == 'PoCurrencyId'
             ) {
                 CalcTotals();
             }
-        }, false);
+        }
+            , false);
+        //Исправлен
+        function SetUnitName(txtProductCode) {
 
-
-
-        function SetUnitName(txtProductCode){
-
-            var txtunitNameId = txtProductCode.id.replaceAll('ProductCode','UnitName');
+            var txtunitNameId = txtProductCode.id.replaceAll('ProductCode', 'UnitName');
 
             var txtunitName = document.getElementById(txtunitNameId);
 
@@ -461,22 +484,14 @@
 
             var items = lstbox.options;
 
-            for (var i = items.length - 1; i >= 0; i--){
-
+            for (var i = items.length - 1; i >= 0; i--) {
                 if (items[i].value == txtProductCode.value) {
                     txtunitName.value = items[i].text;
                     return;
                 }
             }
-
             return;
         }
-
-        document.addEventListener('change', function (e) {
-            if (e.target.id.indexOf('ProductCode') >= 0) {
-                SetUnitName(event.target);
-            }
-        }, false);
            
 
 
