@@ -211,13 +211,13 @@ namespace Stock.Controllers
                 Text = x.Name
             }).ToList();
 
-            SelectListItem defItem = new SelectListItem()
-            {
-                Value = "",
-                Text = "---Select Base Currency---"
-            };
+            //SelectListItem defItem = new SelectListItem()
+            //{
+            //    Value = "",
+            //    Text = "---Select Base Currency---"
+            //};
 
-            listIItems.Insert(0, defItem);
+            //listIItems.Insert(0, defItem);
             return listIItems;
         }
 
