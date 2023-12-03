@@ -155,6 +155,9 @@ namespace Stock.Controllers
 
                 TempData["ErrorMessage"] = errMessage;
                 ModelState.AddModelError("", errMessage);
+
+                PopulateViewBags();
+
                 return View(item);
             }
             else
@@ -166,24 +169,47 @@ namespace Stock.Controllers
 
 
 
+        public IActionResult Delete(Guid id)
+        {
+            PoHeader item = _puchaseOrderRepo.GetItem(id);
+
+            PopulateViewBags();
+
+            return View(item);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(PoHeader item)
+        {
+            item.PoDetails.RemoveAll(a => a.Quantity == 0);
 
 
+            bool bolret = false;
+            string errMessage = "";
+            try
+            {
+                bolret = _puchaseOrderRepo.Delete(item);
+            }
+            catch (Exception ex)
+            {
+                errMessage = errMessage + " " + ex.Message;
+            }
 
 
+            if (bolret == false)
+            {
+                errMessage = errMessage + " " + _puchaseOrderRepo.GetErrors();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+                TempData["ErrorMessage"] = errMessage;
+                ModelState.AddModelError("", errMessage);
+                return View(item);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "" + item.PoNumber + " Deleted Successfully";
+                return RedirectToAction(nameof(Index));
+            }
+        }
 
 
 

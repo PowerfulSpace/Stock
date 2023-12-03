@@ -111,23 +111,22 @@ namespace Stock.Repositories
             return retVal;
         }
 
-        public bool Delete(PoHeader item)
+        public bool Delete(PoHeader poHeader)
         {
             bool retVal = false;
-            _errors = string.Empty;
+            _errors = "";
 
             try
             {
-                _context.PoHeaders.Attach(item);
-                _context.Entry(item).State = EntityState.Deleted;
+                _context.Attach(poHeader);
+                _context.Entry(poHeader).State = EntityState.Deleted;
                 _context.SaveChanges();
                 retVal = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _errors = "Delete failed - Sql Exception Occured, Error info: " + e.Message;
+                _errors = "Delete Failed - Sql Exception Occured , Error Info : " + ex.Message;
             }
-
             return retVal;
         }
 
