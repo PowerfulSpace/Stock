@@ -49,11 +49,15 @@ namespace Stock.Repositories
 
         public PoHeader GetItem(Guid id)
         {
-            var item = _context.PoHeaders
-                .Where(x => x.Id == id)
-                .Include(x => x.PoDetails)
-                    .FirstOrDefault();
+            PoHeader item = _context.PoHeaders.Where(i => i.Id == id)
+                     .Include(d => d.PoDetails)
+                     .ThenInclude(i => i.Product)
+                     .ThenInclude(u => u.Unit)
+                     .FirstOrDefault()!;
 
+            item.PoDetails.ForEach(i => i.UnitName = i.Product.Unit.Name);
+            item.PoDetails.ForEach(p => p.Description = p.Product.Description);
+            item.PoDetails.ForEach(p => p.Total = p.Quantity * p.PrcInBaseCur);
 
             return item;
         }
