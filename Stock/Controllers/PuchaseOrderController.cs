@@ -121,6 +121,77 @@ namespace Stock.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+            PoHeader item = _puchaseOrderRepo.GetItem(id);
+
+            PopulateViewBags();
+
+            return View(item);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(PoHeader item)
+        {
+            item.PoDetails.RemoveAll(a => a.Quantity == 0);
+
+
+            bool bolret = false;
+            string errMessage = "";
+            try
+            {
+                bolret = _puchaseOrderRepo.Edit(item);
+            }
+            catch (Exception ex)
+            {
+                errMessage = errMessage + " " + ex.Message;
+            }
+
+
+            if (bolret == false)
+            {
+                errMessage = errMessage + " " + _puchaseOrderRepo.GetErrors();
+
+                TempData["ErrorMessage"] = errMessage;
+                ModelState.AddModelError("", errMessage);
+                return View(item);
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "" + item.PoNumber + " Modified Successfully";
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         private void PopulateViewBags()
         {
             ViewBag.Products = GetProducts();

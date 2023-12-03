@@ -84,23 +84,30 @@ namespace Stock.Repositories
             return retVal;
         }
 
-        public bool Edit(PoHeader item)
+        public bool Edit(PoHeader poHeader)
         {
             bool retVal = false;
-            _errors = string.Empty;
+            _errors = "";
 
             try
             {
-                _context.PoHeaders.Attach(item);
-                _context.Entry(item).State = EntityState.Modified;
+
+                List<PoDetail> poDetails = _context.PoDetails.Where(d => d.Id == poHeader.Id).ToList();
+                _context.PoDetails.RemoveRange(poDetails);
                 _context.SaveChanges();
+
+                _context.Attach(poHeader);
+                _context.Entry(poHeader).State = EntityState.Modified;
+                _context.PoDetails.AddRange(poHeader.PoDetails);
+                _context.SaveChanges();
+
+
                 retVal = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _errors = "Edit Failed - Sql Exception Occured, Error info: " + e.Message;
+                _errors = "Update Failed - Sql Exception Occured , Error Info : " + ex.Message;
             }
-
             return retVal;
         }
 
